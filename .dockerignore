@@ -1,0 +1,13 @@
+.agents
+.codex
+.cypress/cucumber-json
+.git
+.idea
+.meteor/local
+.vscode
+cypress/screenshots
+cypress/videos
+node_modules
+npm-debug.log*
+storybook-static
+tsconfig.tsbuildinfo
