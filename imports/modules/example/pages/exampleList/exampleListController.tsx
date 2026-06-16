@@ -6,6 +6,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
+import { Button } from 'node_modules/@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
@@ -24,6 +28,9 @@ interface IExampleListContollerContext {
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+
+
+
 export const ExampleListControllerContext = React.createContext<IExampleListContollerContext>(
 	{} as IExampleListContollerContext
 );
@@ -38,8 +45,8 @@ const initialConfig = {
 const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
-	const { title, type, typeMulti } = exampleApi.getSchema();
-	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
+	const { title, type, typeMulti,statusConcluded } = exampleApi.getSchema();
+	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' }, statusConcluded };
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;
@@ -107,6 +114,8 @@ const ExampleListController = () => {
 		}),
 		[examples, loading]
 	);
+
+	console.log("DADOS QUE CHEGARAM DA API:", examples);
 
 	return (
 		<ExampleListControllerContext.Provider value={providerValues}>

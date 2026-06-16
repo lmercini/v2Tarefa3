@@ -19,7 +19,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			'exampleList',
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
-					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1 }
+					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1, statusConcluded: 1 }
 				});
 			},
 			async (doc: IExample & { nomeUsuario: string }) => {
@@ -43,7 +43,8 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 					statusToggle: 1,
 					slider: 1,
 					check: 1,
-					address: 1
+					address: 1,
+					statusConcluded:1
 				}
 			});
 		});

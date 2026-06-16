@@ -11,6 +11,7 @@ import SysForm from '/imports/ui/components/sysForm/sysForm';
 import { exampleSch } from '../../api/exampleSch'; // Assuming you have a schema for the form
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import Button from '@mui/material/Button';
@@ -68,12 +69,17 @@ const ExampleDetailView: React.FC = () => {
                     max={200} 
                     />
 
+					<SysLocationField name="address" />
+				
+					
 
                 </Styles.formColumn>
 
                 <Styles.formColumn>
                     <SysRadioButton name='typeMulti' childrenAlignment='row'/>
                     <SysCheckBox name='check' childrenAlignment='row' />
+                    <SysSelectField name='statusConcluded'  />
+
                 </Styles.formColumn>
         </Styles.body>
 

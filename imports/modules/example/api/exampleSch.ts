@@ -34,7 +34,7 @@ export const exampleSch: ISchema<IExample> = {
 		type: Array<String>,
 		label: 'Grupos associados',
 		defaultValue: {},
-		optional: true,
+		optional: false,
 		options: () => [
 			{ value: 'Grupo 1', label: 'Grupo 1' },
 			{ value: 'Grupo 2', label: 'Grupo 2' },
@@ -51,6 +51,17 @@ export const exampleSch: ISchema<IExample> = {
 			{ value: 'Categoria B', label: 'Categoria B' },
 			{ value: 'Categoria C', label: 'Categoria C' }
 		]
+	},
+	statusConcluded: {
+		type: String,
+		label: 'Situação',
+		defaultValue: 'Não Concluída',
+		optional: false,
+		options: () => [
+			{ value: 'Não Concluída', label: 'Não Concluída' },
+			{ value: 'Concluída', label: 'Concluída' },
+		]
+		
 	},
 	typeMulti: {
 		type: String,
@@ -167,6 +178,7 @@ export interface IExample extends IDoc {
 	description: string;
 	check: Array<string>;
 	type: string;
+	statusConcluded:string;
 	typeMulti: string;
 	date: Date;
 	files: object[];

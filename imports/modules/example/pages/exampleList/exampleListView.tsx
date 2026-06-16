@@ -13,6 +13,9 @@ import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
+
+
+
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
 	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -47,6 +50,8 @@ const ExampleListView = () => {
 			) : (
 				<Box sx={{ width: '100%' }}>
 					<ComplexTable
+						onEdit={(row) => navigate('/example/edit')}
+
 						data={controller.todoList}
 						schema={controller.schema}
 						onRowClick={(row) => navigate('/example/view/' + row.id)}
