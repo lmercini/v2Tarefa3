@@ -33,7 +33,7 @@ export const exampleSch: ISchema<IExample> = {
 	check: {
 		type: Array<String>,
 		label: 'Grupos associados',
-		defaultValue: {},
+		defaultValue: [],
 		optional: false,
 		options: () => [
 			{ value: 'Grupo 1', label: 'Grupo 1' },

@@ -19,7 +19,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			'exampleList',
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
-					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1, statusConcluded: 1 }
+					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1, statusConcluded: 1, nome: 1, check: 1 }
 				});
 			},
 			async (doc: IExample & { nomeUsuario: string }) => {
@@ -28,26 +28,27 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			}
 		);
 
-		this.addPublication('exampleDetail', (filter = {}) => {
-			return this.defaultDetailCollectionPublication(filter, {
-				projection: {
-					contacts: 1,
-					title: 1,
-					description: 1,
-					type: 1,
-					typeMulti: 1,
-					date: 1,
-					files: 1,
-					chip: 1,
-					statusRadio: 1,
-					statusToggle: 1,
-					slider: 1,
-					check: 1,
-					address: 1,
-					statusConcluded:1
-				}
+			this.addPublication('exampleDetail', (filter = {}) => {
+				return this.defaultDetailCollectionPublication(filter, {
+					projection: {
+						contacts: 1,
+						title: 1,
+						description: 1,
+						type: 1,
+						typeMulti: 1,
+						date: 1,
+						files: 1,
+						chip: 1,
+						statusRadio: 1,
+						statusToggle: 1,
+						slider: 1,
+						check: 1,
+						address: 1,
+						statusConcluded:1,
+						nome: 1
+					}
+				});
 			});
-		});
 
 	// 	this.addRestEndpoint(
 	// 		'view',

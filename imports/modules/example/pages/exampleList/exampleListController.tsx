@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useContext } from 'react';
 import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -6,9 +6,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
-import { Button } from 'node_modules/@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+
+import  { ConcludedButton } from './exampleListContext';
+
 
 
 interface IInitialConfig {
@@ -28,6 +29,7 @@ interface IExampleListContollerContext {
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+const teste = 0
 
 
 
@@ -42,11 +44,90 @@ const initialConfig = {
 	viewComplexTable: false
 };
 
+
+
 const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
-	const { title, type, typeMulti,statusConcluded } = exampleApi.getSchema();
-	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' }, statusConcluded };
+	const { showNotification } = useContext(AppLayoutContext);
+
+
+	 const onChangeStatus = useCallback((row: any) => {
+    // 1. Definimos o novo texto
+    const isCurrentlyDone = row.statusConcluded === 'Concluída';
+    const novoStatusTexto = isCurrentlyDone ? 'Não Concluída' : 'Concluída';
+
+    // 2. Montamos o documento com a linha INTEIRA (que agora inclui o 'nome' e o '_id')
+    const docAtualizado = {
+        ...row,
+        statusConcluded: novoStatusTexto
+    };
+
+    // 3. Enviamos para a API e aguardamos a resposta real do servidor
+    exampleApi.update(docAtualizado, (error: any) => {
+        if (error) {
+            // Se o back-end recusar, mostra notificação vermelha de erro
+            console.error("Erro no servidor:", error);
+            showNotification({
+                type: 'error',
+                title: 'Erro ao salvar',
+                message: error.reason || 'Ocorreu um erro na validação.'
+            });
+        } else {
+            // Se o back-end aceitar, mostra notificação de sucesso
+            showNotification({
+                type: isCurrentlyDone ? 'default' : 'success',
+                title: 'Tarefa Atualizada!',
+                message: `Situação da Tarefa: ${novoStatusTexto}`
+            });
+        }
+    });
+
+}, [showNotification]); 
+
+
+/*
+const onChangeStatus = useCallback((row:any) => {
+
+		const docStatus = {...row, { statusConcluded : (row.statusConcluded === 'Concluída')? 'Não Concluída':'Concluída'}}
+
+        exampleApi.update(docStatus, (error: any) =>{
+
+			
+			if (error) {
+            // Se o back-end recusar, mostra notificação vermelha de erro
+            console.error("Erro no servidor:", error);
+            showNotification({
+                type: 'error',
+                title: 'Erro ao salvar',
+                message: error.reason || 'Ocorreu um erro na validação.'
+            });
+        } else {
+            // Se o back-end aceitar, mostra notificação de sucesso
+            showNotification({
+                type: (row.statusConcluded === 'Concluída') ? 'default' : 'success',
+                title: 'Tarefa Atualizada!',
+                message: `Situação da Tarefa: ${novoStatusTexto}`
+            });
+        }
+    });
+
+}, [showNotification]);*/
+
+
+	const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
+
+	const exampleSchReduzido = { 	
+		columnButton: { label: 'Situação', type: String },
+		title, 
+		type, 
+		typeMulti, 
+		createdat: { type: Date, label: 'Criado em' }  ,
+		statusConcluded
+	};
+		
+
+
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;
@@ -102,19 +183,44 @@ const ExampleListController = () => {
 		setConfig((prev) => ({ ...prev, filter: { ...prev.filter, type: value } }));
 	}, []);
 
+
+	const todoListButton= useMemo(() => {
+		return examples.map((row: any) => ({
+			...row, 
+			columnButton: (
+				<ConcludedButton
+					isConcluded={(row.statusConcluded === 'Concluída')? true:false}
+					onClick={(event) => {
+                        event.stopPropagation(); 
+                        onChangeStatus(row);   
+                    }}
+				/>
+			)
+		}));
+		}, [examples, onChangeStatus]);
+
+		
 	const providerValues: IExampleListContollerContext = useMemo(
 		() => ({
+			onClickConcluded: onChangeStatus,
 			onAddButtonClick,
 			onDeleteButtonClick,
-			todoList: examples,
+
+			todoList: todoListButton,
 			schema: exampleSchReduzido,
 			loading,
 			onChangeTextField,
 			onChangeCategory: onSelectedCategory
+			
+
 		}),
 		[examples, loading]
 	);
 
+
+	
+
+// APAGAR DEPOIS 
 	console.log("DADOS QUE CHEGARAM DA API:", examples);
 
 	return (

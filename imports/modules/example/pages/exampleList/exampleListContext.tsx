@@ -1,22 +1,32 @@
 
-
-import React, { useContext } from 'react';
-import { Button } from "node_modules/@mui/material";
+import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
-interface ButtonConcludedprops{
-    isConcluded: Boolean;
-    onClick:()=>void;
+import React, {createContext} from 'react';
+
+interface IExampleListContext {
+    onClickConcluded?: (row:any) => void;   
 }
 
-const ButtonConcluded = ({ isConcluded, onClick}: ButtonConcludedprops) =>{
-    return (
+const ExampleListContext = createContext<IExampleListContext>({} as IExampleListContext);
+
+interface ConcludedButtonProps {
+    isConcluded:  boolean,
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export const ConcludedButton = ({isConcluded, onClick }:ConcludedButtonProps) => {
+    return(
         <Button
-        variant= {isConcluded? 'contained':'outlined'}
-        color = {isConcluded? 'success': 'primary'}
-        startIcon = {isConcluded? <CheckCircleIcon />: <RadioButtonUncheckedIcon/>}
+        variant= {isConcluded ? 'contained':'outlined'}
+        color= {isConcluded ? 'success':'primary'}
+        startIcon= {isConcluded ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
         onClick={onClick}
         />
     )
+
 }
+
+export default ExampleListContext;
+export type { IExampleListContext };
