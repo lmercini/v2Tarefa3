@@ -12,6 +12,7 @@ import  { ConcludedButton } from './exampleListContext';
 
 
 
+
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
 	filter: Object;
@@ -47,12 +48,12 @@ const initialConfig = {
 
 
 const ExampleListController = () => {
-	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
+	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const { showNotification } = useContext(AppLayoutContext);
 
 
-	 const onChangeStatus = useCallback((row: any) => {
+	/* const onChangeStatus = useCallback((row: any) => {
     // 1. Definimos o novo texto
     const isCurrentlyDone = row.statusConcluded === 'Concluída';
     const novoStatusTexto = isCurrentlyDone ? 'Não Concluída' : 'Concluída';
@@ -83,47 +84,47 @@ const ExampleListController = () => {
         }
     });
 
-}, [showNotification]); 
+}, [showNotification]); */
 
 
-/*
+
 const onChangeStatus = useCallback((row:any) => {
 
-		const docStatus = {...row, { statusConcluded : (row.statusConcluded === 'Concluída')? 'Não Concluída':'Concluída'}}
+		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
+
+		const docStatus = {...row, statusConcluded : newStatusConcluded}
 
         exampleApi.update(docStatus, (error: any) =>{
 
-			
-			if (error) {
-            // Se o back-end recusar, mostra notificação vermelha de erro
-            console.error("Erro no servidor:", error);
-            showNotification({
+			error? showNotification({
                 type: 'error',
                 title: 'Erro ao salvar',
                 message: error.reason || 'Ocorreu um erro na validação.'
-            });
-        } else {
-            // Se o back-end aceitar, mostra notificação de sucesso
-            showNotification({
+            }): showNotification({
                 type: (row.statusConcluded === 'Concluída') ? 'default' : 'success',
                 title: 'Tarefa Atualizada!',
-                message: `Situação da Tarefa: ${novoStatusTexto}`
+                message: `Situação da Tarefa: ${newStatusConcluded}`
             });
-        }
-    });
 
-}, [showNotification]);*/
+
+		})
+
+		
+
+
+    }
+
+, [showNotification]);
 
 
 	const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
 
 	const exampleSchReduzido = { 	
-		columnButton: { label: 'Situação', type: String },
+		columnButton: { label: 'Concluída', type: String },
 		title, 
 		type, 
 		typeMulti, 
-		createdat: { type: Date, label: 'Criado em' }  ,
-		statusConcluded
+		createdat: { type: Date, label: 'Criado em' } 
 	};
 		
 

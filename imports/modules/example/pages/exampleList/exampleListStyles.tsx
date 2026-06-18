@@ -1,6 +1,7 @@
 import { ElementType } from 'react';
 import { styled } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { sysSizing } from '../../../../ui/materialui/styles';
 import { SysSectionPaddingXY } from '../../../../ui/layoutComponents/sysLayoutComponents';
 
@@ -8,9 +9,12 @@ interface IExampleListStyles {
 	Container: ElementType<BoxProps>;
 	LoadingContainer: ElementType<BoxProps>;
 	SearchContainer: ElementType<BoxProps>;
+	ConcludedButtonStyle: ElementType<IconButtonProps>;
 }
 
 const ExampleListStyles: IExampleListStyles = {
+
+	
 	Container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
@@ -42,7 +46,13 @@ const ExampleListStyles: IExampleListStyles = {
 		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column'
 		}
+	})),
+	
+	ConcludedButtonStyle: styled(IconButton)(({ theme }) => ({
+		padding: '12px',
+		transition: 'all 0.3s ease',  
 	}))
+	
 };
 
 export default ExampleListStyles;

@@ -1,9 +1,9 @@
 
-import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-
 import React, {createContext} from 'react';
+import ExampleListStyles from './exampleListStyles';
+
 
 interface IExampleListContext {
     onClickConcluded?: (row:any) => void;   
@@ -17,13 +17,16 @@ interface ConcludedButtonProps {
 }
 
 export const ConcludedButton = ({isConcluded, onClick }:ConcludedButtonProps) => {
+
+
     return(
-        <Button
-        variant= {isConcluded ? 'contained':'outlined'}
-        color= {isConcluded ? 'success':'primary'}
-        startIcon= {isConcluded ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
-        onClick={onClick}
-        />
+            <ExampleListStyles.ConcludedButtonStyle
+            color= {isConcluded ? 'success':'primary'}
+            onClick={onClick}
+            >
+                {isConcluded ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
+            </ExampleListStyles.ConcludedButtonStyle>
+        
     )
 
 }

@@ -101,6 +101,7 @@ const ExampleDetailView: React.FC = () => {
 
         </SysForm>
 
+        {JSON.stringify(context.document)}
         </Styles.container>
     )
 }
