@@ -1,6 +1,7 @@
 import { IDoc } from '../../../typings/IDoc';
 import { ISchema } from '../../../typings/ISchema';
 
+
 export const exampleSch: ISchema<IExample> = {
 	image: {
 		type: String,
@@ -26,6 +27,13 @@ export const exampleSch: ISchema<IExample> = {
 	description: {
 		type: String,
 		label: 'Descrição',
+		defaultValue: '',
+		optional: true
+	},
+
+	author: {
+		type: String,
+		label: 'Autor',
 		defaultValue: '',
 		optional: true
 	},
@@ -167,9 +175,10 @@ export const exampleSch: ISchema<IExample> = {
 	statusToggle: {
 		type: Boolean,
 		label: 'Exigir comprovação',
-		defaultValue: false,
 		optional: true
-	}
+	},
+	
+
 };
 
 export interface IExample extends IDoc {
@@ -190,4 +199,6 @@ export interface IExample extends IDoc {
 	slider: number;
 	statusRadio: string;
 	statusToggle: boolean;
+	username:string;
+	author: string;
 }

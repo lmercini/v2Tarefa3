@@ -17,10 +17,17 @@ import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioBut
 import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { useState } from 'react';
+
 const ExampleDetailView: React.FC = () => {
 
     const {state} = useContext<IExampleModuleContext>(ExampleModuleContext); 
     const context = useContext<IExampleDetailContext>(ExampleDetailContext);
+    const author = context.document?.username
+    const [isPersonal, setIsPersonal] = useState<boolean>();
+
    
 /*     if(context.loading) return <SysLoading />
  */    
@@ -60,6 +67,17 @@ const ExampleDetailView: React.FC = () => {
 
                     <SysSelectField name='type'  />
 
+                    <SysRadioButton name='typeMulti' childrenAlignment='row'/>
+
+                    <SysCheckBox name='check' childrenAlignment='row' />
+					
+					
+
+                </Styles.formColumn>
+
+                <Styles.formColumn>
+                    
+
                     <SysTextField 
                     name='description'
                     placeholder='Acrescente uma descrição para o item'
@@ -69,16 +87,30 @@ const ExampleDetailView: React.FC = () => {
                     max={200} 
                     />
 
-					<SysLocationField name="address" />
-				
-					
+                    <SysLocationField name="address" />
 
-                </Styles.formColumn>
-
-                <Styles.formColumn>
-                    <SysRadioButton name='typeMulti' childrenAlignment='row'/>
-                    <SysCheckBox name='check' childrenAlignment='row' />
                     <SysSelectField name='statusConcluded'  />
+                    
+                   
+                    {author && (
+                    <SysTextField 
+                        name='author'                                                                       
+                        defaultValue={author}
+                        readOnly={true} 
+                        />
+                    )}
+
+                     <FormControlLabel
+                        disabled = {state === 'view'}
+                        control={
+                            <Switch 
+                            checked={isPersonal} 
+                            onChange={(e) => setIsPersonal(e.target.checked)} 
+                            />
+                        }
+                        label={isPersonal?"Pessoal": "Pública"}
+                        />
+				
 
                 </Styles.formColumn>
         </Styles.body>
@@ -100,7 +132,6 @@ const ExampleDetailView: React.FC = () => {
         </Styles.footer>
 
         </SysForm>
-
         {JSON.stringify(context.document)}
         </Styles.container>
     )

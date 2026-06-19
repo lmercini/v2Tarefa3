@@ -30,7 +30,8 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 							description: 1,
 							typeMulti:1,
 							check:1, 
-							createdby: 1
+							createdby: 1,
+							author: 1
 				
 						}
 
@@ -51,7 +52,9 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			'exampleList',
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
-					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1, statusConcluded: 1, nome: 1, check: 1 }
+					projection: { title: 1, type: 1, typeMulti: 1, 
+						createdat: 1, statusConcluded: 1, nome: 1, check: 1, author: 1 
+						}
 				});
 			},
 			async (doc: IExample & { nomeUsuario: string }) => {
@@ -77,41 +80,14 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 						check: 1,
 						address: 1,
 						statusConcluded:1,
-						nome: 1
+						nome: 1,
+						author: 1
+						
 					}
 				});
 			});
 
-	// 	this.addRestEndpoint(
-	// 		'view',
-	// 		(params, options) => {
-	// 			console.log('Params', params);
-	// 			console.log('options.headers', options.headers);
-	// 			return { status: 'ok' };
-	// 		},
-	// 		['post']
-	// 	);
-
-	// 	this.addRestEndpoint(
-	// 		'view/:exampleId',
-	// 		(params, _options) => {
-	// 			console.log('Rest', params);
-	// 			if (params.exampleId) {
-	// 				return self
-	// 					.defaultCollectionPublication(
-	// 						{
-	// 							_id: params.exampleId
-	// 						},
-	// 						{}
-	// 					)
-	// 					.fetch();
-	// 			} else {
-	// 				return { ...params };
-	// 			}
-	// 		},
-	// 		['get']
-	// 	);
-	// }
+	
 	}
 }
 

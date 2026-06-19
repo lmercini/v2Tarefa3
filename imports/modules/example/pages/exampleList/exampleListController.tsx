@@ -52,8 +52,9 @@ const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const { showNotification } = useContext(AppLayoutContext);
 
-
-	/* const onChangeStatus = useCallback((row: any) => {
+//////////////////////////////////////////////// BOTÂO
+/*
+	 const onChangeStatus = useCallback((row: any) => {
     // 1. Definimos o novo texto
     const isCurrentlyDone = row.statusConcluded === 'Concluída';
     const novoStatusTexto = isCurrentlyDone ? 'Não Concluída' : 'Concluída';
@@ -84,11 +85,13 @@ const ExampleListController = () => {
         }
     });
 
-}, [showNotification]); */
+}, [showNotification]); 
 
 
 
-const onChangeStatus = useCallback((row:any) => {
+//////////////////////////////////// BOTÂO CONCLUIDO 
+*/
+ const onChangeStatus = useCallback((row:any) => {
 
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
 
@@ -114,9 +117,10 @@ const onChangeStatus = useCallback((row:any) => {
 
     }
 
-, [showNotification]);
+, [showNotification]); 
 
 
+/////////////////////////////////////////
 	const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
 
 	const exampleSchReduzido = { 	
