@@ -18,7 +18,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 
 
 		// PAREI AQUI
-
+		/*
 		this.addTransformedPublication(
 			'exampleDetail',
 			async (filter = {}) =>{
@@ -31,7 +31,9 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 							typeMulti:1,
 							check:1, 
 							createdby: 1,
-							author: 1
+							author: 1,
+							statusConcluded:1,
+							statusToggle: 1,
 				
 						}
 
@@ -45,7 +47,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 				})
 				return {...doc, username : user?.username || "Erro"};			
 			}
-		)
+		)*/
 		
 
 		this.addTransformedPublication(
@@ -53,7 +55,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
 					projection: { title: 1, type: 1, typeMulti: 1, 
-						createdat: 1, statusConcluded: 1, nome: 1, check: 1, author: 1 
+						createdat: 1, statusConcluded: 1, nome: 1, check: 1, author: 1, statusToggle: 1 
 						}
 				});
 			},
@@ -63,30 +65,26 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			}
 		);
 
-			this.addPublication('exampleDetail', (filter = {}) => {
-				return this.defaultDetailCollectionPublication(filter, {
-					projection: {
-						contacts: 1,
-						title: 1,
-						description: 1,
-						type: 1,
-						typeMulti: 1,
-						date: 1,
-						files: 1,
-						chip: 1,
-						statusRadio: 1,
-						statusToggle: 1,
-						slider: 1,
-						check: 1,
-						address: 1,
-						statusConcluded:1,
-						nome: 1,
-						author: 1
-						
+		this.addTransformedPublication(
+			'exampleDetail',
+			async (filter = {}) => {
+				return this.find(filter, {
+					fields: {
+						title: 1, type: 1, description: 1, typeMulti: 1, check: 1, 
+						createdby: 1, author: 1, statusConcluded: 1, statusToggle: 1,
+						contacts: 1, date: 1, files: 1, chip: 1, statusRadio: 1, 
+						slider: 1, address: 1, nome: 1
 					}
 				});
-			});
-
+			},
+			async (doc: Partial<IExample>) : Promise<Partial<IExample>> => {
+				const user: IUserProfile = await userprofileServerApi.getCollectionInstance().findOneAsync(
+					{ _id: doc.createdby }, 
+					{ fields: { username: 1 } }
+				);
+				return { ...doc, username: user?.username || "Desconhecido" };          
+    }
+);
 	
 	}
 }

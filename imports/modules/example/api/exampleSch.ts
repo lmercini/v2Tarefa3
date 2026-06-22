@@ -174,8 +174,8 @@ export const exampleSch: ISchema<IExample> = {
 	},
 	statusToggle: {
 		type: Boolean,
-		label: 'Exigir comprovação',
-		optional: true
+		defaultValue: false,
+		optional: false,
 	},
 	
 

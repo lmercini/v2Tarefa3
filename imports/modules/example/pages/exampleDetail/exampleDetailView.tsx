@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Styles from './exampleDetailStyles'; // Importing the styles from the second snippet
 import Typography from '@mui/material/Typography';
 import { ExampleModuleContext, IExampleModuleContext } from '../../exampleContainer';
@@ -17,20 +17,46 @@ import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioBut
 import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 
+
+import { exampleApi } from '../../api/exampleApi';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useState } from 'react';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+import SysSwitch from '/imports/ui/components/sysFormFields/sysSwitch/sysSwitch';
+
 
 const ExampleDetailView: React.FC = () => {
 
+        
+    const { showNotification } = useContext(AppLayoutContext);
+    
     const {state} = useContext<IExampleModuleContext>(ExampleModuleContext); 
     const context = useContext<IExampleDetailContext>(ExampleDetailContext);
-    const author = context.document?.username
-    const [isPersonal, setIsPersonal] = useState<boolean>();
+    const [isPersonal, setIsPersonal] = useState(false)
+    const doc = context.document
+    const author = doc?.username
 
+    /*const onChangePersonal = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        const newPersonal = e.target.checked;
+        const docUpdate = {...doc, statusToggle: newPersonal};
+        console.log(docUpdate)
+
+         exampleApi.update(docUpdate, (error: any) =>{
+            if (error) {
+                    console.error("Motivo da recusa do servidor:", error);
+                    showNotification({
+                        type: 'error',
+                        title: 'Erro ao salvar',
+                        message: error.reason || 'Ocorreu um erro no campo Pessoal.'
+                    });
+                }
+            }); 
+        };
+*/
    
 /*     if(context.loading) return <SysLoading />
  */    
+
     return (
         <Styles.container>
 
@@ -91,6 +117,7 @@ const ExampleDetailView: React.FC = () => {
 
                     <SysSelectField name='statusConcluded'  />
                     
+                    
                    
                     {author && (
                     <SysTextField 
@@ -100,17 +127,26 @@ const ExampleDetailView: React.FC = () => {
                         />
                     )}
 
-                     <FormControlLabel
+                    <SysSwitch name= "statusToggle" 
+                    label='Tarefa Pessoa'/>
+
+                    {/*  <FormControlLabel
+
+                        name="statusToggle" 
                         disabled = {state === 'view'}
                         control={
-                            <Switch 
+                            <Switch
+                            
                             checked={isPersonal} 
-                            onChange={(e) => setIsPersonal(e.target.checked)} 
+                            onChange={(e) =>setIsPersonal(e.target.checked)} 
+                            value ={isPersonal}
                             />
+                            
+
                         }
                         label={isPersonal?"Pessoal": "Pública"}
                         />
-				
+				 */}
 
                 </Styles.formColumn>
         </Styles.body>
