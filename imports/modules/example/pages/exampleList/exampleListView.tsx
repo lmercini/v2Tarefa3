@@ -50,8 +50,6 @@ const ExampleListView = () => {
 			) : (
 				<Box sx={{ width: '100%' }}>
 					<ComplexTable
-						onEdit={(row) => navigate('/example/edit')}
-
 						data={controller.todoList}
 						schema={controller.schema}
 						onRowClick={(row) => navigate('/example/view/' + row.id)}
@@ -62,7 +60,7 @@ const ExampleListView = () => {
 								showDialog: sysLayoutContext.showDialog,
 								closeDialog: sysLayoutContext.closeDialog,
 								title: `Excluir dado ${row.title}`,
-								message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
+								message: `Tem certeza queeeeEEEEE deseja excluir o arquivo ${row.title}?`,
 								onDeleteConfirm: () => {
 									controller.onDeleteButtonClick(row);
 									sysLayoutContext.showNotification({
