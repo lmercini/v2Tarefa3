@@ -17,7 +17,7 @@ import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioBut
 import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 
-
+import { Meteor } from 'meteor/meteor';
 import { exampleApi } from '../../api/exampleApi';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -29,12 +29,13 @@ const ExampleDetailView: React.FC = () => {
 
         
     const { showNotification } = useContext(AppLayoutContext);
-    
+    const userId = Meteor.userId();
     const {state} = useContext<IExampleModuleContext>(ExampleModuleContext); 
     const context = useContext<IExampleDetailContext>(ExampleDetailContext);
     const [isPersonal, setIsPersonal] = useState(false)
     const doc = context.document
     const author = doc?.username
+    const authorId = doc?.createdby
 
     /*const onChangePersonal = (e: React.ChangeEvent<HTMLInputElement>) =>{
         const newPersonal = e.target.checked;
@@ -72,7 +73,8 @@ const ExampleDetailView: React.FC = () => {
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
                 <IconButton onClick={state == 'view' ? context.navigateToEdit : context.closePage} >
-                    <SysIcon name={state === 'view' ? 'edit' : 'close'} />
+                    <SysIcon name={state === 'view' && userId === authorId ? 
+                         'edit' : 'close'} />
                 </IconButton>
             </Styles.header>
 
@@ -128,7 +130,7 @@ const ExampleDetailView: React.FC = () => {
                     )}
 
                     <SysSwitch name= "statusToggle" 
-                    label='Tarefa Pessoa'/>
+                    label='Tarefa Pessoal'/>
 
                     {/*  <FormControlLabel
 

@@ -13,13 +13,19 @@ import CircularProgress from '@mui/material/CircularProgress';
 import SignInStyles from '../signIn/signInStyles';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+import { Meteor } from 'meteor/meteor';
 
 export const ResetPassword = (props: IDefaultContainerProps) => {
 	const { showNotification } = useContext(AppLayoutContext);
 	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState<boolean>(false);
 
+	
 	const { token } = useParams();
+
+	const userID = Meteor.userId()
+
+	console.log(userID)
   const {
     Container,
     Content,

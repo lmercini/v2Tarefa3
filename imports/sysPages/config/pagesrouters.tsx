@@ -46,7 +46,7 @@ export const pagesRouterList: (IRoute | null)[] = [
 		templateVariant: 'None'
 	},
 	{
-		path: '/reset-password/:token',
+		path: '/reset-password',
 		component: ResetPassword,
 		templateVariant: 'None'
 	},

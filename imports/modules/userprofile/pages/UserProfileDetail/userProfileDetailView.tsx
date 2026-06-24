@@ -25,6 +25,7 @@ const UserProfileDetailView = () => {
 				<FieldsForm>
 					<SysTextField name="username" placeholder="Ex.: José da Silva" />
 					<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />
+					<SysTextField name="password" placeholder="Ex.: jose.silva@email.com" />
 					<SysSelectField name="roles" placeholder="Selecionar" />
 					<Actions>
 						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={closeDialog}>
