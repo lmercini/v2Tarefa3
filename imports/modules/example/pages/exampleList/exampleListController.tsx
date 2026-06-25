@@ -30,7 +30,7 @@ interface IExampleListContollerContext {
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const teste = 0
+
 
 
 
@@ -39,7 +39,7 @@ export const ExampleListControllerContext = React.createContext<IExampleListCont
 );
 
 const initialConfig = {
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: 'updatedate', sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
@@ -52,45 +52,6 @@ const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const { showNotification } = useContext(AppLayoutContext);
 
-//////////////////////////////////////////////// BOTÂO
-/*
-	 const onChangeStatus = useCallback((row: any) => {
-    // 1. Definimos o novo texto
-    const isCurrentlyDone = row.statusConcluded === 'Concluída';
-    const novoStatusTexto = isCurrentlyDone ? 'Não Concluída' : 'Concluída';
-
-    // 2. Montamos o documento com a linha INTEIRA (que agora inclui o 'nome' e o '_id')
-    const docAtualizado = {
-        ...row,
-        statusConcluded: novoStatusTexto
-    };
-
-    // 3. Enviamos para a API e aguardamos a resposta real do servidor
-    exampleApi.update(docAtualizado, (error: any) => {
-        if (error) {
-            // Se o back-end recusar, mostra notificação vermelha de erro
-            console.error("Erro no servidor:", error);
-            showNotification({
-                type: 'error',
-                title: 'Erro ao salvar',
-                message: error.reason || 'Ocorreu um erro na validação.'
-            });
-        } else {
-            // Se o back-end aceitar, mostra notificação de sucesso
-            showNotification({
-                type: isCurrentlyDone ? 'default' : 'success',
-                title: 'Tarefa Atualizada!',
-                message: `Situação da Tarefa: ${novoStatusTexto}`
-            });
-        }
-    });
-
-}, [showNotification]); 
-
-
-
-//////////////////////////////////// BOTÂO CONCLUIDO 
-*/
  const onChangeStatus = useCallback((row:any) => {
 
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
@@ -120,7 +81,6 @@ const ExampleListController = () => {
 , [showNotification]); 
 
 
-/////////////////////////////////////////
 	const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
 
 	const exampleSchReduzido = { 	
@@ -128,7 +88,8 @@ const ExampleListController = () => {
 		title, 
 		type, 
 		typeMulti, 
-		createdat: { type: Date, label: 'Criado em' } 
+		createdat: { type: Date, label: 'Criado em' },
+		//updatedate: {type: Date, label: 'Ùltima Atualização'} 
 	};
 		
 

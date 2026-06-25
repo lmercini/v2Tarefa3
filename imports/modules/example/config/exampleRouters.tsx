@@ -20,5 +20,11 @@ export const exampleRouterList: (IRoute | null)[] = [
 		component: ExampleContainer,
 		isProtected: true,
 		resources: [Recurso.EXAMPLE_VIEW]
+	},
+	{
+		path: '/example/:screenState',
+		component: ExampleContainer,
+		isProtected: false,
+		resources: [Recurso.EXAMPLE_HOME]
 	}
 ];

@@ -2,6 +2,7 @@ import React from 'react';
 import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
 import ExampleListController from '../../modules/example/pages/exampleList/exampleListController';
+import ExampleHomeController from '../../modules/example/pages/exampleHome/exampleHomeController';
 import ExampleDetailController from '../../modules/example/pages/exampleDetail/exampleDetailContoller';
 
 export interface IExampleModuleContext {
@@ -16,12 +17,15 @@ export default (props: IDefaultContainerProps) => {
 	const state = screenState ?? props.screenState;
 	const id = exampleId ?? props.id;
 
-	const validState = ['view', 'edit', 'create'];
+	const validState = ['view', 'edit', 'create','home'];
 
 	const renderPage = () => {
-		if (!state || !validState.includes(state)) return <ExampleListController />;
-		return <ExampleDetailController />;
-	};
+			if (!state || !validState.includes(state)) return <ExampleListController />;
+			
+			if (state === 'home') return <ExampleHomeController />; 
+			
+			return <ExampleDetailController />;
+			};
 
 	const providerValue = {
 		state,

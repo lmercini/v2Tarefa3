@@ -87,6 +87,11 @@ export const exampleSch: ISchema<IExample> = {
 		defaultValue: '',
 		optional: true
 	},
+	updatedate: {
+		type: Date,
+		label: 'Data de Atualização',
+		optional: true
+	},
 	files: {
 		type: [Object],
 		label: 'Anexos',
@@ -201,4 +206,5 @@ export interface IExample extends IDoc {
 	statusToggle: boolean;
 	username:string;
 	author: string;
+	updatedate?: Date;
 }

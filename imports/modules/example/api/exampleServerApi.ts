@@ -26,8 +26,8 @@ class ExampleServerApi extends ProductServerBase<IExample> {
                 return this.defaultDetailCollectionPublication(filter, {
                     projection: {
                         contacts: 1,
-						title:1,
-						description: 1,
+                        title:1,
+                        description: 1,
                         type: 1,
                         typeMulti: 1,
                         date: 1,
@@ -41,7 +41,8 @@ class ExampleServerApi extends ProductServerBase<IExample> {
                         statusConcluded: 1,
                         nome: 1,
                         author: 1,
-                        createdby: 1 
+                        createdby: 1,
+                        createdat: 1, 
                     }
                 });
             },
@@ -58,49 +59,99 @@ class ExampleServerApi extends ProductServerBase<IExample> {
         );
 		
 
-		this.addTransformedPublication(
-  'exampleList',
-  (filter = {}) => {
 
-	const userId = Meteor.userId();
-	console.log(userId)
-    const personalFilter = {
-      ...filter,
-	  $or:[
-		{statusToggle: false},
-		{createdby: userId}
-		
-	  ]
-    	
-    };
+    this.addTransformedPublication(
+      'exampleList',
+      (filter = {}) => {
 
-	
-    return this.defaultListCollectionPublication(personalFilter, {
-      projection: {
-		title:1,
-        type: 1,
-        typeMulti: 1,
-        createdat: 1,
-        statusConcluded: 1,
-        nome: 1,
-        check: 1,
-        statusToggle: 1,
-        author: 1,
-      },
-    });
-  },
-  async (doc: IExample & { nomeUsuario: string }) => {
-    const userProfileDoc =
-      await userprofileServerApi.getCollectionInstance().findOneAsync({
-        _id: doc.createdby,
-      });
+      const userId = Meteor.userId();
+      console.log(userId)
+        const personalFilter = {
+          ...filter,
+        $or:[
+        {statusToggle: false},
+        {createdby: userId}
+        
+        ]
+          
+        };
 
-    return { ...doc };
-  }
-);
+      
+        return this.defaultListCollectionPublication(personalFilter, {
+          projection: {
+            title:1,
+            type: 1,
+            typeMulti: 1,
+            createdat: 1,
+            statusConcluded: 1,
+            nome: 1,
+            check: 1,
+            statusToggle: 1,
+            author: 1,
+            updatedate: 1,
+            },
+          });
+        },
+        async (doc: IExample & { nomeUsuario: string }) => {
+          const userProfileDoc =
+            await userprofileServerApi.getCollectionInstance().findOneAsync({
+              _id: doc.createdby,
+            });
+
+          return { ...doc };
+        }
+      );
+
+
+    this.addTransformedPublication(
+        'exampleHome',
+        (filter = {}) => {
+
+        const userId = Meteor.userId();
+          const personalFilter = {
+            ...filter,
+          $or:[
+          {statusToggle: false},
+          {createdby: userId}
+          
+          ]
+            
+          };
+
+        
+          return this.defaultListCollectionPublication(personalFilter, {
+            projection: {
+          title:1,
+              type: 1,
+              typeMulti: 1,
+              createdat: 1,
+              statusConcluded: 1,
+              nome: 1,
+              check: 1,
+              statusToggle: 1,
+              author: 1,
+            },
+          });
+        },
+        async (doc: IExample & { nomeUsuario: string }) => {
+          const userProfileDoc =
+            await userprofileServerApi.getCollectionInstance().findOneAsync({
+              _id: doc.createdby,
+            });
+
+          return { ...doc };
+        }
+      );
+
 
 
 	}
+
+  beforeUpdate(docObj: Partial<IExample>, context: any) {
+        docObj.updatedate = new Date(); 
+
+        return super.beforeUpdate(docObj, context); 
+    }
 }
 
 export const exampleServerApi = new ExampleServerApi();

@@ -16,7 +16,8 @@ const _mapRolesRecursos: MapRolesRecursos = {
 		..._getAllValues(SysFormTestPageResources),
 		..._getAllValues(Aniversario),
 		Usuarios.USUARIO_UPDATE,
-		Usuarios.USUARIO_VIEW,	
+		Usuarios.USUARIO_VIEW,
+	
 	],
 	[RoleType.ADMINISTRADOR]: [
 		Usuarios.USUARIO_CREATE,
