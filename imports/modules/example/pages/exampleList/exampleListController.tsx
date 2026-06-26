@@ -24,6 +24,7 @@ interface IExampleListContollerContext {
 	onAddButtonClick: () => void;
 	onDeleteButtonClick: (row: any) => void;
 	todoList: IExample[];
+	todoListWithoutButtons: any[];
 	schema: ISchema<any>;
 	loading: boolean;
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -57,7 +58,7 @@ const ExampleListController = () => {
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
 
 		const docStatus = {...row, statusConcluded : newStatusConcluded}
-
+	
         exampleApi.update(docStatus, (error: any) =>{
 
 			error? showNotification({
@@ -120,7 +121,7 @@ const ExampleListController = () => {
 	}, []);
 
 	const onDeleteButtonClick = useCallback((row: any) => {
-		exampleApi.remove(row);
+		exampleApi.remove({ _id: row._id });	
 	}, []);
 
 	const onChangeTextField = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,6 +152,7 @@ const ExampleListController = () => {
 
 
 	const todoListButton= useMemo(() => {
+
 		return examples.map((row: any) => ({
 			...row, 
 			columnButton: (
@@ -171,8 +173,8 @@ const ExampleListController = () => {
 			onClickConcluded: onChangeStatus,
 			onAddButtonClick,
 			onDeleteButtonClick,
-
-			todoList: todoListButton,
+			todoList:todoListButton ,
+			todoListWithoutButtons:examples,
 			schema: exampleSchReduzido,
 			loading,
 			onChangeTextField,
@@ -180,7 +182,8 @@ const ExampleListController = () => {
 			
 
 		}),
-		[examples, loading]
+		[todoListButton, examples,
+			onDeleteButtonClick, loading]
 	);
 
 

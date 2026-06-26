@@ -121,7 +121,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
         
           return this.defaultListCollectionPublication(personalFilter, {
             projection: {
-          title:1,
+              title:1,
               type: 1,
               typeMulti: 1,
               createdat: 1,
@@ -131,6 +131,12 @@ class ExampleServerApi extends ProductServerBase<IExample> {
               statusToggle: 1,
               author: 1,
             },
+          
+            sort:{
+              updatedate:1
+
+            },
+            limit: 5
           });
         },
         async (doc: IExample & { nomeUsuario: string }) => {
@@ -146,6 +152,12 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 
 
 	}
+
+  beforeInsert(docObj: Partial<IExample>, context: any) {
+        docObj.updatedate = new Date(); 
+
+        return super.beforeUpdate(docObj, context); 
+    }
 
   beforeUpdate(docObj: Partial<IExample>, context: any) {
         docObj.updatedate = new Date(); 
