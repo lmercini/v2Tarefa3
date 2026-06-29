@@ -1,19 +1,20 @@
 import React, { useCallback, useMemo, useContext } from 'react';
 import ExampleHomeView from './exampleHomeView';
 import { nanoid } from 'nanoid';
-import { useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+import { useNavigate } from 'react-router-dom';
+import { ExampleModuleContext, IExampleModuleContext } from '../../exampleContainer';
 
 
 
 
 
 interface IInitialConfig {
-    sortProperties: { field: string; sortAscending: boolean };
+    sortProperties: { field: string; sortAscending: boolean }[];
     filter: Object;
     searchBy: string | null;
     viewComplexTable: boolean;
@@ -21,6 +22,8 @@ interface IInitialConfig {
 
 interface IExampleHomeContollerContext {
     onAddButtonClick: () => void;
+    navigateToList?: () => void;
+
     onDeleteButtonClick: (row: any) => void;
     todoList: IExample[];
     schema: ISchema<any>;
@@ -38,7 +41,7 @@ export const ExampleHomeControllerContext = React.createContext<IExampleHomeCont
 );
 
 const initialConfig = {
-    sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: [{ field: 'statusConcluded', sortAscending: false },{ field: 'updatedate', sortAscending: false }],
     filter: {},
     searchBy: null,
     viewComplexTable: false
@@ -50,6 +53,25 @@ const ExampleHomeController = () => {
 
     const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
     const { showNotification } = useContext(AppLayoutContext);
+    const {id, state} = useContext<IExampleModuleContext>(ExampleModuleContext);
+
+
+    
+    const navigate = useNavigate(); 
+
+    const navigateToList = () => {
+            navigate(`/example`)
+        }
+    
+    const navigateToEdit = () => {
+            navigate(`/example/edit/${id}`)
+        }
+    const onClickArrowBack = () => { 
+            navigate(-1)
+        }
+    const closePage = () => {
+            navigate(-1)
+        }
 
  const onChangeStatus = useCallback((row:any) => {
 
@@ -92,12 +114,14 @@ const ExampleHomeController = () => {
         
 
 
-    const navigate = useNavigate();
+   
 
     const { sortProperties, filter } = config;
-    const sort = {
-        [sortProperties.field]: sortProperties.sortAscending ? 1 : -1
-    };
+    const sort = sortProperties.reduce((arr, prop) => {
+        arr[prop.field] = prop.sortAscending ? 1 : -1;
+        return arr;
+    }, {} as Record<string, number>);
+
 
     const { loading, examples } = useTracker(() => {
         const subHandle = exampleApi.subscribe('exampleHome', filter, {
@@ -160,7 +184,12 @@ const ExampleHomeController = () => {
             schema: exampleSchReduzido,
             loading,
             onChangeTextField,
-            onChangeCategory: onSelectedCategory
+            onChangeCategory: onSelectedCategory,
+           
+            onClickArrowBack: onClickArrowBack,
+            closePage: closePage,
+            navigateToList:navigateToList,
+            navigateToEdit: navigateToEdit
             
 
         }),

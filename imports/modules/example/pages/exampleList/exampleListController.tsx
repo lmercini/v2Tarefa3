@@ -14,7 +14,7 @@ import  { ConcludedButton } from './exampleListContext';
 
 
 interface IInitialConfig {
-	sortProperties: { field: string; sortAscending: boolean };
+	sortProperties: { field: string; sortAscending: boolean }[];
 	filter: Object;
 	searchBy: string | null;
 	viewComplexTable: boolean;
@@ -29,6 +29,7 @@ interface IExampleListContollerContext {
 	loading: boolean;
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	navigateToHome: () => void;
 }
 
 
@@ -40,7 +41,7 @@ export const ExampleListControllerContext = React.createContext<IExampleListCont
 );
 
 const initialConfig = {
-	sortProperties: { field: 'updatedate', sortAscending: true },
+	sortProperties: [{ field: 'statusConcluded', sortAscending: false },{ field: 'updatedate', sortAscending: false }],
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
@@ -58,6 +59,9 @@ const ExampleListController = () => {
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
 
 		const docStatus = {...row, statusConcluded : newStatusConcluded}
+
+
+
 	
         exampleApi.update(docStatus, (error: any) =>{
 
@@ -96,11 +100,20 @@ const ExampleListController = () => {
 
 
 	const navigate = useNavigate();
+ 
+	
+		const navigateToHome = () => {
+				navigate(`/example/home`)
+			}
+
 
 	const { sortProperties, filter } = config;
-	const sort = {
-		[sortProperties.field]: sortProperties.sortAscending ? 1 : -1
-	};
+
+	const sort = sortProperties.reduce((arr, prop) => {
+        arr[prop.field] = prop.sortAscending ? 1 : -1;
+        return arr;
+    }, {} as Record<string, number>);
+
 
 	const { loading, examples } = useTracker(() => {
 		const subHandle = exampleApi.subscribe('exampleList', filter, {
@@ -178,7 +191,8 @@ const ExampleListController = () => {
 			schema: exampleSchReduzido,
 			loading,
 			onChangeTextField,
-			onChangeCategory: onSelectedCategory
+			onChangeCategory: onSelectedCategory,
+            navigateToHome: navigateToHome
 			
 
 		}),

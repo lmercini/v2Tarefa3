@@ -22,7 +22,7 @@ const ExampleDetailController: React.FC = () => {
 		navigate(`/example/edit/${id}`)
 	}
 	const onClickArrowBack = () => { 
-		navigate(-1)
+        navigate(`/example`)
 	}
 	const closePage = () => {
 		navigate(-1)

@@ -6,7 +6,9 @@ import ExampleListStyles from './exampleListStyles';
 
 
 interface IExampleListContext {
-    onClickConcluded?: (row:any) => void;   
+    onClickConcluded?: (row:any) => void; 
+    navigateToHome?: () => void; 
+
 }
 
 const ExampleListContext = createContext<IExampleListContext>({} as IExampleListContext);

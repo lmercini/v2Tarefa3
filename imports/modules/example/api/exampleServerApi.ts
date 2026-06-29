@@ -133,7 +133,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             },
           
             sort:{
-              updatedate:1
+              updatedate:-1
 
             },
             limit: 5

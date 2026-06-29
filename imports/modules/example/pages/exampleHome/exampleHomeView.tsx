@@ -12,11 +12,24 @@ import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelec
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import ExampleHomeContext, { IExampleHomeContext } from './exampleHomeContext';
+import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
 
 
 
 
 const ExampleHomeView = () => {
+
+    const context = useContext<IExampleHomeContext>(ExampleHomeContext);
+      
+    const user = useTracker(() => {
+    return Meteor.user(); 
+  }, []);
+
+    const userName = user?.username
+
+
     const controller = React.useContext(ExampleHomeControllerContext);
     const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
     const navigate = useNavigate();
@@ -26,21 +39,8 @@ const ExampleHomeView = () => {
 
     return (
         <Container>
-            <Typography variant="h5">TESTE DA HOME</Typography>
-            <SearchContainer>
-                <SysTextField
-                    name="search"
-                    placeholder="Pesquisar por nome"
-                    onChange={controller.onChangeTextField}
-                    startAdornment={<SysIcon name={'search'} />}
-                />
-                <SysSelectField
-                    name="Category"
-                    label="Categoria"
-                    options={options}
-                    onChange={controller.onChangeCategory}
-                />
-            </SearchContainer>
+            <Typography variant="h2" align='right'>Bem Vindo, {userName} </Typography>
+            
             {controller.loading ? (
                 <LoadingContainer>
                     <CircularProgress />
@@ -48,6 +48,9 @@ const ExampleHomeView = () => {
                 </LoadingContainer>
             ) : (
                 <Box sx={{ width: '100%' }}>
+                    
+                    <Typography variant="h5">Tarefas mais recentes</Typography>
+
                     <ComplexTable
                         data={controller.todoList}
                         schema={controller.schema}
@@ -59,7 +62,7 @@ const ExampleHomeView = () => {
                                 showDialog: sysLayoutContext.showDialog,
                                 closeDialog: sysLayoutContext.closeDialog,
                                 title: `Excluir dado ${row.title}`,
-                                message: `Tem certeza queeeeEEEEE deseja excluir o arquivo ${row.title}?`,
+                                message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
                                 onDeleteConfirm: () => {
                                     controller.onDeleteButtonClick(row);
                                     sysLayoutContext.showNotification({
@@ -74,11 +77,13 @@ const ExampleHomeView = () => {
 
             <SysFab
                 variant="extended"
-                text="Adicionar"
-                startIcon={<SysIcon name={'add'} />}
-                fixed={true}
-                onClick={controller.onAddButtonClick}
+                text="Lista de Tarefas"
+                startIcon={<SysIcon name={'task'} />}
+                fixed={false}
+                onClick={controller.navigateToList}
             />
+
+            {JSON.stringify(context.document)}
         </Container>
     );
 };

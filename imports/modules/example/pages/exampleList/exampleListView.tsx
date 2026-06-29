@@ -12,6 +12,7 @@ import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelec
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import  IconButton  from '@mui/material/IconButton';
 
 
 
@@ -40,7 +41,12 @@ const ExampleListView = () => {
 					options={options}
 					placeholder="Selecionar"
 					onChange={controller.onChangeCategory}
-				/>
+				/>	
+
+				<IconButton onClick={controller.navigateToHome} > 
+					<SysIcon name='home'/>
+				</IconButton>
+
 			</SearchContainer>
 			{controller.loading ? (
 				<LoadingContainer>
@@ -60,7 +66,7 @@ const ExampleListView = () => {
 								showDialog: sysLayoutContext.showDialog,
 								closeDialog: sysLayoutContext.closeDialog,
 								title: `Excluir dado ${row.title}`,
-								message: `Tem certeza queeeeEEEEE deseja excluir o arquivo ${row.title}?`,
+								message: `Tem certeza quee deseja excluir o arquivo ${row.title}?`,
 								onDeleteConfirm: () => {
 									controller.onDeleteButtonClick(row);
 									sysLayoutContext.showNotification({
