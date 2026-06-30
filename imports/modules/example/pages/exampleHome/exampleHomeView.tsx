@@ -47,13 +47,14 @@ const ExampleHomeView = () => {
                     <Typography variant="body1">Aguarde, carregando informações...</Typography>
                 </LoadingContainer>
             ) : (
-                <Box sx={{ width: '100%' }}>
+                <Box sx={{ width: '100%', mb: 1 }}>
                     
                     <Typography variant="h5">Tarefas mais recentes</Typography>
 
                     <ComplexTable
                         data={controller.todoList}
                         schema={controller.schema}
+                        hidePagination = {true}
                         onRowClick={(row) => navigate('/example/view/' + row.id)}
                         searchPlaceholder={'Pesquisar exemplo'}
                         onEdit={(row) => navigate('/example/edit/' + row._id)}
@@ -72,8 +73,14 @@ const ExampleHomeView = () => {
                             });
                         }}
                     />
+
+                
+                     
                 </Box>
+                
             )}
+
+            <Box sx={{ mt: 2 }}>
 
             <SysFab
                 variant="extended"
@@ -81,7 +88,9 @@ const ExampleHomeView = () => {
                 startIcon={<SysIcon name={'task'} />}
                 fixed={false}
                 onClick={controller.navigateToList}
-            />
+                />
+           
+            </Box>
 
             {JSON.stringify(context.document)}
         </Container>

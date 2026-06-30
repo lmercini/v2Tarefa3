@@ -203,6 +203,8 @@ interface IComplexTableProps {
 	 *  Objeto contendo um campo como chave e uma largura específica em px para a coluna do campo em questão
 	 */
 	fieldsMaxWidthColumnModified?: { [key: string]: number };
+
+	hidePagination?: boolean;
 }
 
 export const locale = {
@@ -240,7 +242,8 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		disableSorting,
 		disableCheckboxSelection = true,
 		fieldsMinWidthColumnModified,
-		fieldsMaxWidthColumnModified
+		fieldsMaxWidthColumnModified,
+		hidePagination
 	} = props;
 
 	locale.toolbarQuickFilterPlaceholder = searchPlaceholder ?? 'Pesquisar';
@@ -432,6 +435,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				paginationMode={'server'}
 				autoHeight={autoHeight ?? true}
 				localeText={locale}
+				hideFooterPagination={hidePagination}
 				getRowId={!!getId ? getId : (row) => row._id}
 				onRowSelectionModelChange={(newSelection) =>
 					setSelection(newSelection?.ids ? Array.from(newSelection.ids) : [])
