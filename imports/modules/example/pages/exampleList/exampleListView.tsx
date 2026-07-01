@@ -27,7 +27,7 @@ const ExampleListView = () => {
 
 	return (
 		<Container>
-			<Typography variant="h5">Lista de Itens</Typography>
+			<Typography variant="h3">Lista de Itens</Typography>
 			<SearchContainer>
 				<SysTextField
 					name="search"

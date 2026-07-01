@@ -15,6 +15,7 @@ import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvi
 import ExampleHomeContext, { IExampleHomeContext } from './exampleHomeContext';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
+import { ExampleHomeWrapper } from './exampleHomeWrapper';
 
 
 
@@ -35,11 +36,11 @@ const ExampleHomeView = () => {
     const navigate = useNavigate();
     const { Container, LoadingContainer, SearchContainer } = ExampleHomeStyles;
 
-    const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
+    const options = [{ value: '', label: 'N enhum' }, ...(controller.schema.type.options?.() ?? [])];
 
     return (
         <Container>
-            <Typography variant="h2" align='right'>Bem Vindo, {userName} </Typography>
+            <Typography variant="h3" sx={{ mb: 4 }} align='right'>Bem Vindo, {userName} </Typography>
             
             {controller.loading ? (
                 <LoadingContainer>
@@ -49,29 +50,15 @@ const ExampleHomeView = () => {
             ) : (
                 <Box sx={{ width: '100%', mb: 1 }}>
                     
-                    <Typography variant="h5">Tarefas mais recentes</Typography>
+                    <Typography variant="h2" sx={{ mb: 4 }} align="center">Tarefas mais recentes</Typography>
 
-                    <ComplexTable
+                    <ExampleHomeWrapper
                         data={controller.todoList}
                         schema={controller.schema}
-                        hidePagination = {true}
+    
                         onRowClick={(row) => navigate('/example/view/' + row.id)}
-                        searchPlaceholder={'Pesquisar exemplo'}
-                        onEdit={(row) => navigate('/example/edit/' + row._id)}
-                        onDelete={(row) => {
-                            DeleteDialog({
-                                showDialog: sysLayoutContext.showDialog,
-                                closeDialog: sysLayoutContext.closeDialog,
-                                title: `Excluir dado ${row.title}`,
-                                message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
-                                onDeleteConfirm: () => {
-                                    controller.onDeleteButtonClick(row);
-                                    sysLayoutContext.showNotification({
-                                        message: 'Excluído com sucesso!'
-                                    });
-                                }
-                            });
-                        }}
+                        
+                        
                     />
 
                 
@@ -80,11 +67,12 @@ const ExampleHomeView = () => {
                 
             )}
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 5, display: 'flex', justifyContent: 'center' , width: '100%'}} >
 
             <SysFab
                 variant="extended"
                 text="Lista de Tarefas"
+                
                 startIcon={<SysIcon name={'task'} />}
                 fixed={false}
                 onClick={controller.navigateToList}

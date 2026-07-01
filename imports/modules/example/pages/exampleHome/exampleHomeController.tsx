@@ -105,10 +105,9 @@ const ExampleHomeController = () => {
     const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
 
     const exampleSchReduzido = { 	
-        columnButton: { label: 'Concluída', type: String },
         title, 
-        type, 
         typeMulti, 
+        type, 
         createdat: { type: Date, label: 'Criado em' } 
     };
         
