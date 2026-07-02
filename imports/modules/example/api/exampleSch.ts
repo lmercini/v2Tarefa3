@@ -71,6 +71,14 @@ export const exampleSch: ISchema<IExample> = {
 		]
 		
 	},
+	statusIcon: {
+		type: String,
+		label: 'Icone Concluido',
+		defaultValue: 'Não null',
+		optional: true
+		
+	},
+
 	typeMulti: {
 		type: String,
 		label: 'Prioridade',
@@ -207,4 +215,5 @@ export interface IExample extends IDoc {
 	username:string;
 	author: string;
 	updatedate?: Date;
+	statusIcon?: string
 }

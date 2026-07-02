@@ -14,6 +14,8 @@ import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import  IconButton  from '@mui/material/IconButton';
 
+import Pagination from '@mui/material/Pagination';
+
 
 
 
@@ -76,6 +78,12 @@ const ExampleListView = () => {
 							});
 						}}
 					/>
+					
+				{/* <Pagination
+				
+				
+				/> */}
+
 				</Box>
 			)}
 

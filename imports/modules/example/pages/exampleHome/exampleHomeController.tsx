@@ -8,6 +8,7 @@ import { exampleApi } from '../../api/exampleApi';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import { useNavigate } from 'react-router-dom';
 import { ExampleModuleContext, IExampleModuleContext } from '../../exampleContainer';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 
@@ -31,6 +32,8 @@ interface IExampleHomeContollerContext {
     onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+
 
 const teste = 0
 
@@ -102,16 +105,26 @@ const ExampleHomeController = () => {
 , [showNotification]); 
 
 
-    const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
+    const { title, type, typeMulti, statusConcluded, statusIcon } = exampleApi.getSchema();
+
+
 
     const exampleSchReduzido = { 	
         title, 
-        typeMulti, 
+        statusIcon, 
         type, 
-        createdat: { type: Date, label: 'Criado em' } 
+        createdat: { type: Date, label: 'Criado em' },
+          
     };
         
+    /* const exampleSchReduzido = exampleSchReduzidoWithoutIcon.map(IExampleSchReduzido: task=>{
+        const statusIcon = task.statusConcluded === 'Concluída'? <SysIcon name = {'check'}/>: <SysIcon name = {'errorCircle'}/>
 
+        return{
+            ...task,
+            statusIcon
+        }
+    }) */
 
    
 
@@ -134,6 +147,16 @@ const ExampleHomeController = () => {
             total: subHandle ? subHandle.total : examples.length
         };
     }, [config]);
+
+
+    const examplesWithIcon = examples.map(task=>{
+        const statusIcon2 = task.statusConcluded === 'Concluída'?   <SysIcon name = {'task'} color ='success'/>: <SysIcon name = {'draft'} color ='primary'/>
+        return {
+            ...task,
+            statusIcon: statusIcon2
+        
+        };
+    })  
 
     const onAddButtonClick = useCallback(() => {
         const newDocumentId = nanoid();
@@ -179,7 +202,7 @@ const ExampleHomeController = () => {
             onAddButtonClick,
             onDeleteButtonClick,
 
-            todoList: examples,
+            todoList: examplesWithIcon,
             schema: exampleSchReduzido,
             loading,
             onChangeTextField,
@@ -192,14 +215,14 @@ const ExampleHomeController = () => {
             
 
         }),
-        [examples, loading]
+        [examplesWithIcon, loading]
     );
 
 
     
 
 // APAGAR DEPOIS 
-    console.log("DADOS QUE CHEGARAM DA API:", examples);
+    console.log("DADOS QUE CHEGARAM DA API:", examplesWithIcon);
 
     return (
         <ExampleHomeControllerContext.Provider value={providerValues}>

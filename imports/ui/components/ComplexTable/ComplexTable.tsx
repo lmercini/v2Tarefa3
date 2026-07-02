@@ -204,7 +204,6 @@ interface IComplexTableProps {
 	 */
 	fieldsMaxWidthColumnModified?: { [key: string]: number };
 
-	hidePagination?: boolean;
 }
 
 export const locale = {
@@ -243,7 +242,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		disableCheckboxSelection = true,
 		fieldsMinWidthColumnModified,
 		fieldsMaxWidthColumnModified,
-		hidePagination
 	} = props;
 
 	locale.toolbarQuickFilterPlaceholder = searchPlaceholder ?? 'Pesquisar';
@@ -432,10 +430,9 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				rows={data}
 				columns={columns}
 				rowCount={data?.length}
-				paginationMode={'server'}
 				autoHeight={autoHeight ?? true}
 				localeText={locale}
-				hideFooterPagination={hidePagination}
+				hideFooter={true}
 				getRowId={!!getId ? getId : (row) => row._id}
 				onRowSelectionModelChange={(newSelection) =>
 					setSelection(newSelection?.ids ? Array.from(newSelection.ids) : [])
@@ -482,10 +479,8 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							pb: '0.3em',
 							pt: '0.3em'
 						}
-					},
-					pagination: {
-						labelRowsPerPage: 'Itens por página'
 					}
+					
 				}}
 				filterMode={!!onFilterChange ? 'server' : 'client'}
 				onFilterModelChange={
@@ -500,10 +495,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				checkboxSelection={disableCheckboxSelection ? false : true}
 				disableColumnFilter
 				disableColumnMenu
-				initialState={{
-					pagination: { paginationModel: { pageSize: 15 } }
-				}}
-				pageSizeOptions={[15, 20, 25]}
+				
 			/>
 		</ComplexTableContainer>
 	);

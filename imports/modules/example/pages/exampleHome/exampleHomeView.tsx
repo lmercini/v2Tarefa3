@@ -40,8 +40,9 @@ const ExampleHomeView = () => {
 
     return (
         <Container>
-            <Typography variant="h3" sx={{ mb: 4 }} align='right'>Bem Vindo, {userName} </Typography>
-            
+            <Typography variant="h3" sx={{ mb: 1 }} align='right'>Bem Vindo, {userName} </Typography>
+            <Typography variant="body1" sx={{ mb: 1 }} align='right'>Visualize, edite e crie suas Tarefas aqui!</Typography>
+
             {controller.loading ? (
                 <LoadingContainer>
                     <CircularProgress />
@@ -50,7 +51,7 @@ const ExampleHomeView = () => {
             ) : (
                 <Box sx={{ width: '100%', mb: 1 }}>
                     
-                    <Typography variant="h2" sx={{ mb: 4 }} align="center">Tarefas mais recentes</Typography>
+                    <Typography variant="h2" sx={{ mb: 4 }} align="center">Atividades Recentes</Typography>
 
                     <ExampleHomeWrapper
                         data={controller.todoList}

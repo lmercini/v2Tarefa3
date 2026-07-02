@@ -58,13 +58,15 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             }
         );
 		
-
+    const taskPerPage = 4;
 
     this.addTransformedPublication(
-      'exampleList',
-      (filter = {}) => {
+      'exampleList' ,
+
+      (filter = {}, page = 1) => {
 
       const userId = Meteor.userId();
+      // IDENTIFICADOR DO ID USUARIO PARA TESTAR UMAS COISAS ------------------------------------
       console.log(userId)
         const personalFilter = {
           ...filter,
@@ -75,7 +77,10 @@ class ExampleServerApi extends ProductServerBase<IExample> {
         ]
           
         };
+      const currentPage = Math.max(1,page)
+      const skipPages = (currentPage - 1)*taskPerPage;
 
+      
       
         return this.defaultListCollectionPublication(personalFilter, {
           projection: {
@@ -90,8 +95,13 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             author: 1,
             updatedate: 1,
             },
+          limit: taskPerPage,
+          skip: skipPages,
+          sort: {updatedate : -1}
+
           });
         },
+
         async (doc: IExample & { nomeUsuario: string }) => {
           const userProfileDoc =
             await userprofileServerApi.getCollectionInstance().findOneAsync({
@@ -130,6 +140,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
               check: 1,
               statusToggle: 1,
               author: 1,
+              statusIcon:1
             },
           
             sort:{

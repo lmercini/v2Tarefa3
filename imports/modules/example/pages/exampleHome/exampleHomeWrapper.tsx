@@ -106,7 +106,7 @@ export const ExampleHomeWrapper = (props: IExampleHomeWrapperProps) =>{
                                 );
                                 const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
                                 return (
-                                    <ComplexTableRowText variant="body2" sx={{ textAlign: 'left' }}>
+                                    <ComplexTableRowText variant="h6" sx={{ textAlign: 'left' }}>
                                         <Tooltip title={value} arrow={true}>
                                             {value}
                                         </Tooltip>
