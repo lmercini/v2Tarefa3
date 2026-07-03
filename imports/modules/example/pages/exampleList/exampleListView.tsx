@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -26,6 +26,7 @@ const ExampleListView = () => {
 	const { Container, LoadingContainer, SearchContainer } = ExampleListStyles;
 
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
+
 
 	return (
 		<Container>
@@ -56,7 +57,7 @@ const ExampleListView = () => {
 					<Typography variant="body1">Aguarde, carregando informações...</Typography>
 				</LoadingContainer>
 			) : (
-				<Box sx={{ width: '100%' }}>
+				<Box sx={{ width: '100%' }} >
 					<ComplexTable
 						data={controller.todoList}
 						schema={controller.schema}
@@ -78,13 +79,23 @@ const ExampleListView = () => {
 							});
 						}}
 					/>
+				<Box  display ='flex' justifyContent='center'>
+					<Pagination
+						count={10}
+						page={controller.page}
+						onChange={(e: React.ChangeEvent<unknown>, value: number)=>{
+							controller.setPage(value)
+						}} 
 					
-				{/* <Pagination
-				
-				
-				/> */}
-
+						color='primary'
+						size='medium'
+						/> 
+					 
+				</Box>	
+					 
+					 
 				</Box>
+
 			)}
 
 			<SysFab

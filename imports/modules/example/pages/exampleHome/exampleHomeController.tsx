@@ -113,8 +113,8 @@ const ExampleHomeController = () => {
         title, 
         statusIcon, 
         type, 
-        createdat: { type: Date, label: 'Criado em' },
-          
+/*         createdat: { type: Date, label: 'Criado em' },
+ */          
     };
         
     /* const exampleSchReduzido = exampleSchReduzidoWithoutIcon.map(IExampleSchReduzido: task=>{

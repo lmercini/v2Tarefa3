@@ -49,8 +49,13 @@ const ExampleHomeView = () => {
                     <Typography variant="body1">Aguarde, carregando informações...</Typography>
                 </LoadingContainer>
             ) : (
-                <Box sx={{ width: '100%', mb: 1 }}>
-                    
+                    <Box
+                    sx={{
+                        width: '50%',
+                        mx: 'auto',
+                        height: 'max-content',
+                    }}
+                    >                   
                     <Typography variant="h2" sx={{ mb: 4 }} align="center">Atividades Recentes</Typography>
 
                     <ExampleHomeWrapper

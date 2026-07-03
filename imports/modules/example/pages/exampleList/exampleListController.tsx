@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useContext } from 'react';
+import React, { useCallback, useMemo, useContext,  useState } from 'react';
 import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+import { Meteor } from 'meteor/meteor';
 
 import  { ConcludedButton } from './exampleListContext';
 
@@ -27,6 +28,9 @@ interface IExampleListContollerContext {
 	todoListWithoutButtons: any[];
 	schema: ISchema<any>;
 	loading: boolean;
+	page: number;
+	setPage: React.Dispatch<React.SetStateAction<number>>;
+
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	navigateToHome: () => void;
@@ -54,7 +58,7 @@ const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const { showNotification } = useContext(AppLayoutContext);
 
- const onChangeStatus = useCallback((row:any) => {
+ 	const onChangeStatus = useCallback((row:any) => {
 
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
 
@@ -88,6 +92,8 @@ const ExampleListController = () => {
 
 	const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
 
+	
+
 	const exampleSchReduzido = { 	
 		columnButton: { label: 'Concluída', type: String },
 		title, 
@@ -114,10 +120,12 @@ const ExampleListController = () => {
         return arr;
     }, {} as Record<string, number>);
 
+	const [page,setPage] = useState(1)
 
 	const { loading, examples } = useTracker(() => {
 		const subHandle = exampleApi.subscribe('exampleList', filter, {
-			sort
+			sort,
+			page,
 		});
 
 		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
@@ -126,7 +134,7 @@ const ExampleListController = () => {
 			loading: !!subHandle && !subHandle.ready(),
 			total: subHandle ? subHandle.total : examples.length
 		};
-	}, [config]);
+	}, [config,page]);
 
 	const onAddButtonClick = useCallback(() => {
 		const newDocumentId = nanoid();
@@ -179,8 +187,12 @@ const ExampleListController = () => {
 			)
 		}));
 		}, [examples, onChangeStatus]);
+	
+	
 
+	
 		
+
 	const providerValues: IExampleListContollerContext = useMemo(
 		() => ({
 			onClickConcluded: onChangeStatus,
@@ -190,6 +202,9 @@ const ExampleListController = () => {
 			todoListWithoutButtons:examples,
 			schema: exampleSchReduzido,
 			loading,
+			page: page,
+			setPage: setPage,
+
 			onChangeTextField,
 			onChangeCategory: onSelectedCategory,
             navigateToHome: navigateToHome
@@ -200,7 +215,9 @@ const ExampleListController = () => {
 			onDeleteButtonClick, loading]
 	);
 
+	
 
+	
 	
 
 // APAGAR DEPOIS 
