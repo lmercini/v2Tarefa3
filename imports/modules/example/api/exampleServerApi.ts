@@ -15,10 +15,24 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			// saveImageToDisk: true,
 		});
 
+    
+   
 
 		const self = this;
 
 		// PAREI AQUI
+
+  this.registerMethod('totalCount', async ()=> 
+        {
+          const filter ={
+            $or:[
+            {statusToggle: false},
+            {createdby: Meteor.userId()}        
+           ]}
+          const total =  await this.collectionInstance.find(filter).countAsync();
+          console.log("Total de tarefas",total)
+          return total;
+      })    
 
 		this.addTransformedPublication(
             'exampleDetail',
@@ -72,13 +86,14 @@ class ExampleServerApi extends ProductServerBase<IExample> {
           ...filter,
         $or:[
         {statusToggle: false},
-        {createdby: userId}
-        
+        {createdby: userId}        
         ]
           
         };
       const currentPage = pages.page || 1 
       const skipPages = (currentPage - 1)*taskPerPage;
+      
+      console.log(filter)
 
       
         return this.defaultListCollectionPublication(personalFilter, {

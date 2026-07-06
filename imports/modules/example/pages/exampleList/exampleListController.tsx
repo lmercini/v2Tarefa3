@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useContext,  useState } from 'react';
+import React, { useCallback, useMemo, useContext,  useState, useEffect } from 'react';
 import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,6 @@ import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import { Meteor } from 'meteor/meteor';
-
 import  { ConcludedButton } from './exampleListContext';
 
 
@@ -30,6 +29,7 @@ interface IExampleListContollerContext {
 	loading: boolean;
 	page: number;
 	setPage: React.Dispatch<React.SetStateAction<number>>;
+	total:number;
 
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -58,6 +58,10 @@ const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const { showNotification } = useContext(AppLayoutContext);
 
+	const [total,setTotal] = useState(0)
+	
+/* 	const reloadPagination = useLocation() 
+ */
  	const onChangeStatus = useCallback((row:any) => {
 
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
@@ -103,6 +107,19 @@ const ExampleListController = () => {
 		//updatedate: {type: Date, label: 'Ùltima Atualização'} 
 	};
 		
+
+	useEffect(()=>{
+		Meteor.call('example.totalCount',(err: any, result: number) => {
+			if (err) {
+					console.log("Erro ao contar as tarefas", err.message || err);
+			} else {
+				setTotal(result);
+			}
+		})
+	},[/* reloadPagination.pathname */])
+
+
+
 
 
 	const navigate = useNavigate();
@@ -152,7 +169,7 @@ const ExampleListController = () => {
 				...prev,
 				filter: { ...prev.filter, title: { $regex: value.trim(), $options: 'i' } }
 			}));
-		}, 1000);
+		}, 2000);
 		return () => clearTimeout(delayedSearch);
 	}, []);
 
@@ -205,6 +222,8 @@ const ExampleListController = () => {
 			page: page,
 			setPage: setPage,
 
+			total:total,
+
 			onChangeTextField,
 			onChangeCategory: onSelectedCategory,
             navigateToHome: navigateToHome
@@ -220,7 +239,7 @@ const ExampleListController = () => {
 	
 	
 
-// APAGAR DEPOIS 
+// PARA VERIFICAR O QUE ESTOU RECEBENDO NO FRONT 
 	console.log("DADOS QUE CHEGARAM DA API:", examples);
 
 	return (

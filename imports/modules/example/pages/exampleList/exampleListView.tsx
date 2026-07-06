@@ -27,13 +27,15 @@ const ExampleListView = () => {
 
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 
+	const totalPages = Math.ceil(controller.total / 4)
 
 	return (
 		<Container>
-			<Typography variant="h3">Lista de Itens</Typography>
+			<Typography variant="h3">Lista de Itens </Typography>
 			<SearchContainer>
 				<SysTextField
 					name="search"
+					label="Nome do Item"
 					placeholder="Pesquisar por nome"
 					onChange={controller.onChangeTextField}
 					startAdornment={<SysIcon name={'search'} />}
@@ -81,7 +83,7 @@ const ExampleListView = () => {
 					/>
 				<Box  display ='flex' justifyContent='center'>
 					<Pagination
-						count={10}
+						count={totalPages}
 						page={controller.page}
 						onChange={(e: React.ChangeEvent<unknown>, value: number)=>{
 							controller.setPage(value)
