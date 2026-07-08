@@ -34,6 +34,11 @@ interface IExampleListContollerContext {
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	navigateToHome: () => void;
+	navigateToEdit?: (id:string) => void; 
+	
+
+	
+
 }
 
 
@@ -60,8 +65,7 @@ const ExampleListController = () => {
 
 	const [total,setTotal] = useState(0)
 	
-/* 	const reloadPagination = useLocation() 
- */
+
  	const onChangeStatus = useCallback((row:any) => {
 
 		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
@@ -94,7 +98,7 @@ const ExampleListController = () => {
 , [showNotification]); 
 
 
-	const { title, type, typeMulti, statusConcluded } = exampleApi.getSchema();
+	const { title, type, typeMulti, statusToggle,  author,  } = exampleApi.getSchema();
 
 	
 
@@ -104,6 +108,9 @@ const ExampleListController = () => {
 		type, 
 		typeMulti, 
 		createdat: { type: Date, label: 'Criado em' },
+		statusToggle,
+		author,
+		
 		//updatedate: {type: Date, label: 'Ùltima Atualização'} 
 	};
 		
@@ -116,7 +123,7 @@ const ExampleListController = () => {
 				setTotal(result);
 			}
 		})
-	},[/* reloadPagination.pathname */])
+	},[])
 
 
 
@@ -125,9 +132,14 @@ const ExampleListController = () => {
 	const navigate = useNavigate();
  
 	
-		const navigateToHome = () => {
-				navigate(`/example/home`)
-			}
+
+	const navigateToHome = () => {
+		navigate(`/example/home`)
+	}
+
+	const navigateToEdit = (id:string) => {
+		navigate(`/example/edit/${id}`)
+	}
 
 
 	const { sortProperties, filter } = config;
@@ -226,8 +238,9 @@ const ExampleListController = () => {
 
 			onChangeTextField,
 			onChangeCategory: onSelectedCategory,
-            navigateToHome: navigateToHome
-			
+            navigateToHome: navigateToHome,
+			navigateToEdit: navigateToEdit,
+
 
 		}),
 		[todoListButton, examples,

@@ -3,6 +3,11 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ExampleListControllerContext } from './exampleListController';
+import { ExampleModuleContext, IExampleModuleContext } from '../../exampleContainer';
+import { Dialog, DialogTitle, DialogContent, DialogActions,} from '@mui/material';
+import Styles from '../exampleDetail/exampleDetailStyles'; // Importing the styles from the second snippet
+
+
 import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '../../../../ui/components/ComplexTable/ComplexTable';
 import DeleteDialog from '../../../../ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
@@ -13,8 +18,11 @@ import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import  IconButton  from '@mui/material/IconButton';
+import { Meteor } from 'meteor/meteor';
 
 import Pagination from '@mui/material/Pagination';
+import ExampleDetailView from '../exampleDetail/exampleDetailView';
+import ExampleListModal from './exampleListModal';
 
 
 
@@ -22,8 +30,14 @@ import Pagination from '@mui/material/Pagination';
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
 	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
+	const {state} = useContext<IExampleModuleContext>(ExampleModuleContext); 
+	
 	const navigate = useNavigate();
 	const { Container, LoadingContainer, SearchContainer } = ExampleListStyles;
+
+	const [openModal, setOpenModal] = useState(false);
+	const [modal, setModal] =  useState<any>(null) ;
+
 
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 
@@ -63,7 +77,12 @@ const ExampleListView = () => {
 					<ComplexTable
 						data={controller.todoList}
 						schema={controller.schema}
-						onRowClick={(row) => navigate('/example/view/' + row.id)}
+						onRowClick={(event) => {setOpenModal(true);
+							setModal(event.row);
+
+							console.log("OBJETO DA LINHA: ", event.row);
+						}}
+
 						searchPlaceholder={'Pesquisar exemplo'}
 						onEdit={(row) => navigate('/example/edit/' + row._id)}
 						onDelete={(row) => {
@@ -92,7 +111,6 @@ const ExampleListView = () => {
 						color='primary'
 						size='medium'
 						/> 
-					 
 				</Box>	
 					 
 					 
@@ -107,7 +125,69 @@ const ExampleListView = () => {
 				fixed={true}
 				onClick={controller.onAddButtonClick}
 			/>
+
+
+			<Dialog
+				open={openModal}
+				onClose={() => setOpenModal(false)} 
+				fullWidth 
+				maxWidth="md">
+				<DialogContent>
+						<Styles.header>
+
+								<IconButton onClick={() => setOpenModal(false)} > 
+									<SysIcon name='arrowBack'/>
+								</IconButton>
+								
+								<Box sx={{ flexGrow: 1 }} />
+								
+								
+								<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
+												<SysIcon name={ 'edit'} />
+								</IconButton>
+
+						</Styles.header>
+
+						<ExampleListModal modalObj={modal}/>
+
+					{/* <Styles.container>
+							<Styles.header>
+							
+							
+							<IconButton onClick={() => setOpenModal(false)} > 
+										<SysIcon name='arrowBack'/>
+								</IconButton>
+
+								<Typography variant="h5">
+										Item {modal.title}
+								</Typography>
+								<Box sx={{ flexGrow: 1 }} />
+								
+								<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
+										<SysIcon name={ 'edit'} />
+								</IconButton>
+
+					
+
+							</Styles.header>
+
+
+							<Styles.body>
+
+
+
+							</Styles.body>
+							
+							
+							</Styles.container> */}
+
+						
+				</DialogContent> 
+			</Dialog>
+
 		</Container>
+
+		
 	);
 };
 

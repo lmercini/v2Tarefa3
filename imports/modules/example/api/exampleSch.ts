@@ -42,7 +42,7 @@ export const exampleSch: ISchema<IExample> = {
 		type: Array<String>,
 		label: 'Grupos associados',
 		defaultValue: [],
-		optional: false,
+		optional: true,
 		options: () => [
 			{ value: 'Grupo 1', label: 'Grupo 1' },
 			{ value: 'Grupo 2', label: 'Grupo 2' },
@@ -198,7 +198,6 @@ export interface IExample extends IDoc {
 	image: string;
 	title: string;
 	description: string;
-	check: Array<string>;
 	type: string;
 	statusConcluded:string;
 	typeMulti: string;

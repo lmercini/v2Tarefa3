@@ -25,6 +25,7 @@ import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import SysSwitch from '/imports/ui/components/sysFormFields/sysSwitch/sysSwitch';
 
 
+
 const ExampleDetailView: React.FC = () => {
 
         
@@ -78,7 +79,6 @@ const ExampleDetailView: React.FC = () => {
                 </IconButton>
             </Styles.header>
 
-        {/*  {JSON.stringify(context.document)}  */}
 
         <SysForm 
             schema={exampleSch}
@@ -97,7 +97,6 @@ const ExampleDetailView: React.FC = () => {
 
                     <SysRadioButton name='typeMulti' childrenAlignment='row'/>
 
-                    <SysCheckBox name='check' childrenAlignment='row' />
 					
 					
 
@@ -115,7 +114,7 @@ const ExampleDetailView: React.FC = () => {
                     max={200} 
                     />
 
-                    <SysLocationField name="address" />
+                 
 
                     <SysSelectField name='statusConcluded'  />
                     
@@ -131,24 +130,6 @@ const ExampleDetailView: React.FC = () => {
 
                     <SysSwitch name= "statusToggle" 
                     label='Tarefa Pessoal'/>
-
-                    {/*  <FormControlLabel
-
-                        name="statusToggle" 
-                        disabled = {state === 'view'}
-                        control={
-                            <Switch
-                            
-                            checked={isPersonal} 
-                            onChange={(e) =>setIsPersonal(e.target.checked)} 
-                            value ={isPersonal}
-                            />
-                            
-
-                        }
-                        label={isPersonal?"Pessoal": "Pública"}
-                        />
-				 */}
 
                 </Styles.formColumn>
         </Styles.body>

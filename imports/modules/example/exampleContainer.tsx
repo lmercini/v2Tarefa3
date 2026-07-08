@@ -14,7 +14,7 @@ export const ExampleModuleContext = React.createContext<IExampleModuleContext>({
 
 export default (props: IDefaultContainerProps) => {
 	let { screenState, exampleId } = useParams();
-	const state = screenState ?? props.screenState;
+	let state = screenState ?? props.screenState;
 	const id = exampleId ?? props.id;
 
 	const validState = ['view', 'edit', 'create','home'];

@@ -7,7 +7,8 @@ import ExampleListStyles from './exampleListStyles';
 
 interface IExampleListContext {
     onClickConcluded?: (row:any) => void; 
-    navigateToHome?: () => void; 
+    navigateToHome?: () => void;
+    navigateToEdit?: () => void; 
 
 }
 
