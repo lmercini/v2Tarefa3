@@ -31,7 +31,8 @@ const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
 	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
 	const {state} = useContext<IExampleModuleContext>(ExampleModuleContext); 
-	
+	const { showNotification } = useContext(AppLayoutContext);
+
 	const navigate = useNavigate();
 	const { Container, LoadingContainer, SearchContainer } = ExampleListStyles;
 
@@ -84,21 +85,77 @@ const ExampleListView = () => {
 						}}
 
 						searchPlaceholder={'Pesquisar exemplo'}
-						onEdit={(row) => navigate('/example/edit/' + row._id)}
-						onDelete={(row) => {
-							DeleteDialog({
-								showDialog: sysLayoutContext.showDialog,
-								closeDialog: sysLayoutContext.closeDialog,
-								title: `Excluir dado ${row.title}`,
-								message: `Tem certeza quee deseja excluir o arquivo ${row.title}?`,
-								onDeleteConfirm: () => {
-									controller.onDeleteButtonClick(row);
-									sysLayoutContext.showNotification({
-										message: 'Excluído com sucesso!'
-									});
+						
+
+						conditionalActions={[
+							{
+								condition: (row) => !row.statusToggle,
+								if:{
+									label:"Editar",
+									icon: <SysIcon name={'edit'}/>,
+									onClick: (row) => navigate('/example/edit/' + row._id)
+
+								},
+								else:{
+									label:"Editar",
+									icon: (<span style={{ opacity: 0.3, cursor: 'not-allowed' }}>
+										<SysIcon name={'edit'}/>
+        							</span>
+									),
+									onClick: () => showNotification({
+									type: 'error',
+									title: 'Erro ao Editar Tarefa',
+									message: 'Você não tem permissão para Editar esse item, comunique o autor do item'
+								})
+
 								}
-							});
-						}}
+							},
+
+							{
+								condition: (row) => !row.statusToggle,
+								if:{
+									label:"Excluir",
+									icon: <SysIcon name={'delete'}/>,
+									onClick: (row) => {
+											DeleteDialog({
+												showDialog: sysLayoutContext.showDialog,
+												closeDialog: sysLayoutContext.closeDialog,
+												title: `Excluir dado ${row.title}`,
+												message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
+												onDeleteConfirm: () => {
+													controller.onDeleteButtonClick(row);
+													sysLayoutContext.showNotification({
+														message: 'Excluído com sucesso!'
+													});
+												}
+											});
+						}
+
+								},
+								else:{
+									label:"Excluir",
+									icon: (<span style={{ opacity: 0.3, cursor: 'not-allowed' }}>
+										<SysIcon name={'delete'}/>
+        							</span>
+									),
+									onClick: () => showNotification({
+									type: 'error',
+									title: 'Erro ao Excluir Tarefa',
+									message: 'Você não tem permissão para Excluir esse item, comunique o autor do item'
+								})
+
+								}
+							}
+
+
+						]}
+
+
+/* 						 {row.createdby === Meteor.userId()} }
+ */
+						
+
+
 					/>
 				<Box  display ='flex' justifyContent='center'>
 					<Pagination
@@ -132,6 +189,7 @@ const ExampleListView = () => {
 				onClose={() => setOpenModal(false)} 
 				fullWidth 
 				maxWidth="md">
+				
 				<DialogContent>
 						<Styles.header>
 
@@ -142,44 +200,21 @@ const ExampleListView = () => {
 								<Box sx={{ flexGrow: 1 }} />
 								
 								
-								<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
+								{!modal?.statusToggle ?
+									<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
 												<SysIcon name={ 'edit'} />
-								</IconButton>
+									</IconButton> :
+									<IconButton onClick={() => setOpenModal(false)} > 
+														<SysIcon name='close'/>
+									</IconButton>
+								}
+								
 
 						</Styles.header>
 
 						<ExampleListModal modalObj={modal}/>
 
-					{/* <Styles.container>
-							<Styles.header>
-							
-							
-							<IconButton onClick={() => setOpenModal(false)} > 
-										<SysIcon name='arrowBack'/>
-								</IconButton>
-
-								<Typography variant="h5">
-										Item {modal.title}
-								</Typography>
-								<Box sx={{ flexGrow: 1 }} />
-								
-								<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
-										<SysIcon name={ 'edit'} />
-								</IconButton>
-
 					
-
-							</Styles.header>
-
-
-							<Styles.body>
-
-
-
-							</Styles.body>
-							
-							
-							</Styles.container> */}
 
 						
 				</DialogContent> 

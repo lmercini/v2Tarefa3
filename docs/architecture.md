@@ -102,7 +102,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
     this.addPublication('exampleList', (filter = {}, options = {}) =>
       this.defaultListCollectionPublication(filter, { // Método da ServerApiBase
         ...options, // Passa sort, limit, skip da subscrição
-        projection: { title: 1, status: 1, createdat: 1 },
+        projection: { title: 1, status: 1, createdat: 1, },
       })
     );
 

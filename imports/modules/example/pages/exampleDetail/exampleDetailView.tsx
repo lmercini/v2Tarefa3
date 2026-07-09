@@ -73,8 +73,8 @@ const ExampleDetailView: React.FC = () => {
                     {state === 'view' ? ` Item ${context.document?.title}`: `${state === 'edit' ? 'Editar' : 'Adicionar'} item`}
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
-                <IconButton onClick={state == 'view' ? context.navigateToEdit : context.closePage} >
-                    <SysIcon name={state === 'view' && userId === authorId ? 
+                <IconButton onClick={state == 'view' && !doc?.statusToggle ? context.navigateToEdit : context.closePage} >
+                    <SysIcon name={state === 'view' && !doc?.statusToggle/*  userId === authorId */ ? 
                          'edit' : 'close'} />
                 </IconButton>
             </Styles.header>
@@ -125,6 +125,7 @@ const ExampleDetailView: React.FC = () => {
                         name='author'                                                                       
                         defaultValue={author}
                         readOnly={true} 
+                        showLabelAdornment=  {false}
                         />
                     )}
 

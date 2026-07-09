@@ -108,8 +108,7 @@ const ExampleListController = () => {
 		type, 
 		typeMulti, 
 		createdat: { type: Date, label: 'Criado em' },
-		statusToggle,
-		author,
+		
 		
 		//updatedate: {type: Date, label: 'Ùltima Atualização'} 
 	};
@@ -171,7 +170,7 @@ const ExampleListController = () => {
 	}, []);
 
 	const onDeleteButtonClick = useCallback((row: any) => {
-		exampleApi.remove({ _id: row._id });	
+		exampleApi.remove({ _id: row._id });
 	}, []);
 
 	const onChangeTextField = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

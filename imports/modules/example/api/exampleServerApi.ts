@@ -27,7 +27,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
           const filter ={
             $or:[
             {statusToggle: false},
-           /*  {createdby: Meteor.userId()}  */       
+            {createdby: Meteor.userId()}        
            ]}
           const total =  await this.collectionInstance.find(filter).countAsync();
           console.log("Total de tarefas",total)
@@ -85,6 +85,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
           ...filter,
         $or:[
         {statusToggle: false},
+        {createdby: Meteor.userId()} 
         ]
           
         };
@@ -105,7 +106,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             statusToggle: 1,
             author: 1,
             updatedate: 1,
-            createby: 1,
+            createdby: 1,
             },
           limit: taskPerPage,
           skip: skipPages,
@@ -121,8 +122,10 @@ class ExampleServerApi extends ProductServerBase<IExample> {
               _id: doc.createdby,
             });
 
-          return { ...doc };
+          return { ...doc, username: userProfileDoc ? userProfileDoc.username : "Desconhecido" };
         }
+      
+      
       );
 
 
@@ -135,6 +138,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             ...filter,
           $or:[
           {statusToggle: false},
+           {createdby: Meteor.userId()} 
           
           ]
             
