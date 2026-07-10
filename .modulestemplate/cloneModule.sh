@@ -43,7 +43,7 @@ if [ ! -d "$originalModulePath" ]; then
     exit 1
 fi
 
-# Copia a estrutura da pasta
+# Copia a estrutura da pastaT
 cp -a $originalModulePath $newModulePath
 
 # Entra no diretório de destino
