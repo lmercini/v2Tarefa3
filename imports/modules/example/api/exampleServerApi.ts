@@ -71,7 +71,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             }
         );
 		
-    const taskPerPage = 10;
+    const taskPerPage = 4;
 
     this.addTransformedPublication(
       'exampleList' ,

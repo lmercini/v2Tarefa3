@@ -42,7 +42,9 @@ const ExampleListView = () => {
 
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 
-	const totalPages = Math.ceil(controller.total / 4)
+	const taskPerPage = 4
+	
+	const totalPages = Math.ceil(controller.total / taskPerPage)
 
 	return (
 		<Container>

@@ -64,7 +64,7 @@ const ExampleDetailView: React.FC = () => {
 
             <Styles.header>
                 {state == 'view' && 
-                    <IconButton onClick={context.onClickArrowBack} > 
+                    <IconButton onClick={context.closePage} > 
                         <SysIcon name='arrowBack'/>
                     </IconButton>
                  
