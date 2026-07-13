@@ -108,10 +108,12 @@ const sysYellowColors: Partial<Record<ColorKey, string>> = {
 
 //region Blue colors
 const sysBlueColors: Partial<Record<ColorKey, string>> = {
-  30: "#025e97",
-  40: "#027dca",
-  50: "#069efc",
-  80: "#9ad8fe",
+  10: "#002339",
+  20: "#00395c",
+  30: "#004f80",
+  40: "#0066a5",
+  50: "#026fb4",
+  80: "#059fff",
   95: "#e6f5ff",
 } as const;
 //endregion
@@ -123,16 +125,16 @@ const sysLightPalette: PaletteOptions = {
   common: sysCommonColors,
 
   primary: {
-    light: sysPurpleColors[70],
-    main: sysPurpleColors[50]!,
-    dark: sysPurpleColors[30],
+    light: sysBlueColors[40],
+    main: sysBlueColors[20]!,
+    dark: sysBlueColors[10],
     contrastText: sysCommonColors.white
   },
 
   secondary: {
-    light: sysGreenColors[95],
-    main: sysGreenColors[80]!,
-    dark: sysGreenColors[60],
+    light: sysBlueColors[95],
+    main: sysBlueColors[80]!,
+    dark: sysBlueColors[60],
     contrastText: sysGreyColors[20]
   },
 
@@ -184,8 +186,8 @@ const sysLightPalette: PaletteOptions = {
     disabled: sysGreyColors[70],
     base: sysCommonColors.white,
     baseContrast: sysCommonColors.black,
-    primary: sysPurpleColors[50],
-    secondary: sysGreenColors[80],
+    primary: sysBlueColors[50],
+    secondary: sysBlueColors[80],
     tertiary: sysNeonColors[90],
   },
   background: {
@@ -200,10 +202,10 @@ const sysLightPalette: PaletteOptions = {
     bg3: sysGreyColors[90],
   },
   sysAction: {
-    primary: sysPurpleColors[50],
-    primaryHover: sysPurpleColors[30],
-    primaryBgHover: sysPurpleColors.transparent,
-    primaryIcon: sysPurpleColors.grey,
+    primary: sysBlueColors[50],
+    primaryHover: sysBlueColors[30],
+    primaryBgHover: sysBlueColors.transparent,
+    primaryIcon: sysBlueColors.grey,
     primaryContrastText: sysCommonColors.white,
     primaryContrastBg: sysGreyColors.transparent,
     disabled: sysGreyColors[70],

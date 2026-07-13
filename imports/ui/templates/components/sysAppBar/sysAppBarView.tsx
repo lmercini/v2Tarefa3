@@ -18,7 +18,7 @@ const SysAppBarView: React.FC<ISysAppBar> = ({logo}) => {
   return (
     <Styles.wrapper>
       <Styles.container>
-        {logo}
+        Synergia
         <Styles.navContainerDesktop>
           {controller.menuOptions.map(option => (
             <RenderWithPermission key={option?.name} resources={option?.resources}>

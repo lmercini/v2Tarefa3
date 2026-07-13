@@ -35,7 +35,7 @@ const SysAppBarStyles: ISysAppBarStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    gap: sysSizing.spacingRemMd,
+    gap: '2px',
     paddingRight: sysSizing.spacingFixedMd,
     [theme.breakpoints.down('md')]: { display: 'none' },
   })),

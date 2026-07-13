@@ -5,7 +5,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 export const toDosMenuItemList: (IAppMenu | null)[] = [
 	{
 		path: '/toDos',
-		name: 'To Dos',
+		name: 'Lista de Tarefas',
 		icon: <SysIcon name={'event'} />
 	}
 ];

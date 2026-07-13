@@ -8,14 +8,16 @@ import { NoPermission } from '../../sysPages/pages/noPermission/noPermission';
 import SignInPage from '../pages/signIn/signIn';
 import { HomeResources, SysFormTestPageResources } from './resources';
 import SysFormPlayground from '../../sysPages/pages/sysFormPlayground/sysFormPlayground';
+import { Recurso } from '/imports/modules/toDos/config/recursos';
+import ToDosContainer from '../../modules/toDos/toDosContainer';
 
 export const pagesRouterList: (IRoute | null)[] = [
 	{
 		path: '/',
 		exact: true,
-		component: Home,
+		component: ToDosContainer,
 		isProtected: true,
-		resources: [HomeResources.HOME_VIEW]
+		resources: [Recurso.TODOS_CREATE]
 	},
 	{
 		path: '/sysFormTests',

@@ -59,6 +59,7 @@ const SignInPage: React.FC = () => {
 							<SysTextField name="email" label="Email" fullWidth placeholder="Digite seu email" />
 							<SysTextField label="Senha" fullWidth name="password" placeholder="Digite sua senha" type="password" />
 							<Button variant="text" sx={{ alignSelf: 'flex-end' }} onClick={handleForgotPassword}>
+								
 								<Typography variant="link">Esqueci minha senha</Typography>
 							</Button>
 							<Box />
@@ -69,7 +70,6 @@ const SignInPage: React.FC = () => {
 					</SysForm>
 				</FormContainer>
 
-				<Box component="img" src="/images/wireframe/synergia-logo.svg" sx={{ width: '100%', maxWidth: '400px' }} />
 			</Content>
 		</Container>
 	);

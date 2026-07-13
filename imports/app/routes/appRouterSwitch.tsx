@@ -10,6 +10,7 @@ import sysRoutes from './routes';
 import SignInPage from '/imports/sysPages/pages/signIn/signIn';
 import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
 import ScreenRouteRender from './screenRouteRender';
+import {Navigate} from 'react-router-dom'
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
 	const { isLoggedIn, userLoading, user } = useContext<IAuthContext>(AuthContext);
@@ -33,7 +34,18 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 	if (userLoading) return <SysLoading size="large" label="Carregando..." />;
 	
 	return (
+
+
 		<Routes>
+
+			<Route
+				path="/"
+				element={<Navigate to="/toDos/home" replace />}
+			/>
+			<Route
+				path="/example/home"
+				element={<Navigate to="/toDos/home" replace />}
+			/>
 			{sysRoutes.getRoutes().map((route) => (
 				<Route
 					key={route.path}

@@ -143,7 +143,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 					</Button>
 				</FormContainer>
 
-				<Box component="img" src="/images/wireframe/synergia-logo.svg" sx={{ width: '100%', maxWidth: '400px' }} />
+				<Box component="img" src="\images\wireframe\imagemFundoTarefa3.svg" sx={{ width: '100%', maxWidth: '400px' }} />
 			</Content>
 		</Container>
 	);
