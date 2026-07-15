@@ -182,12 +182,14 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 				userprofile._id = await Accounts.createUser({
 					username: userprofile.email,
 					password: userprofile.password,
-					email: userprofile.email
+					email: userprofile.email,
+					emails: [{ address: userprofile.email, verified: true }]
 				});
 			} else {
 				userprofile._id = await Accounts.createUser({
 					username: userprofile.email,
-					email: userprofile.email
+					email: userprofile.email,
+					emails: [{ address: userprofile.email, verified: true }]
 				});
 			}
 		}
@@ -407,16 +409,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		return super.beforeInsert(docObj, context);
 	}
 
-	async afterInsert(doc: IUserProfileEstendido, _context: IContext) {
-		if (Meteor.isServer) {
-			if (doc.password) {
-				Accounts.sendVerificationEmail(doc._id!);
-			} else {
-				Accounts.sendEnrollmentEmail(doc._id!);
-			}
-		}
-	}
-
+	
 	async beforeUpdate(docObj: IUserProfile, context: IContext) {
 		const user: IUserProfile = await getUserServer();
 		if (

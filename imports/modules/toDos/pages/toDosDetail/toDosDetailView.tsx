@@ -23,6 +23,8 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import SysSwitch from '/imports/ui/components/sysFormFields/sysSwitch/sysSwitch';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
@@ -37,6 +39,10 @@ const ToDosDetailView: React.FC = () => {
 	const doc = context.document
 	const author = doc?.username
 	const authorId = doc?.createdby
+
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+	
 
 	/*const onChangePersonal = (e: React.ChangeEvent<HTMLInputElement>) =>{
 		const newPersonal = e.target.checked;
@@ -60,7 +66,9 @@ const ToDosDetailView: React.FC = () => {
  */    
 
 	return (
-		<Styles.container>
+		
+		<Styles.container
+		sx={{padding: isMobile ? '2px' : '20 128px'}}>
 
 			<Styles.header>
 				{state == 'view' && 
@@ -89,8 +97,61 @@ const ToDosDetailView: React.FC = () => {
 
 
 
-		<Styles.body>   
-				<Styles.formColumn>
+		  
+				
+				{isMobile ? (
+					<Styles.body sx={{ 
+							flexDirection: 'column' , 
+							gap: '16px',
+							padding: '16px' 
+						}}>
+					<Styles.formColumn>
+					<SysTextField name='title' />
+
+					<SysSelectField name='type'  />
+
+					<SysRadioButton name='typeMulti' childrenAlignment='row'/>
+
+					
+					
+
+				
+					
+
+					<SysTextField 
+					name='description'
+					placeholder='Acrescente uma descrição para o item'
+					multiline
+					rows= {3}
+					showNumberCharactersTyped
+					max={200} 
+					/>
+
+				 
+
+					<SysSelectField name='statusConcluded'  />
+					
+					
+				   
+					{author && (
+					<SysTextField 
+						name='author'                                                                       
+						defaultValue={author}
+						readOnly={true} 
+						showLabelAdornment=  {false}
+						/>
+					)}
+
+					<SysSwitch name= "statusToggle" 
+					label='Tarefa Pessoal'/>
+
+				
+				</Styles.formColumn>
+				</Styles.body>
+				):(
+					<Styles.body>
+					
+					<Styles.formColumn>
 					<SysTextField name='title' />
 
 					<SysSelectField name='type'  />
@@ -133,7 +194,10 @@ const ToDosDetailView: React.FC = () => {
 					label='Tarefa Pessoal'/>
 
 				</Styles.formColumn>
-		</Styles.body>
+				</Styles.body>
+
+				)}
+		
 
 		<Styles.footer>
 

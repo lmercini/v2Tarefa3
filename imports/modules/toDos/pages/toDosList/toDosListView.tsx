@@ -91,7 +91,7 @@ const ToDosListView = () => {
 
 						conditionalActions={[
 							{
-								condition: (row) => !row.statusToggle,
+								condition: (row) => row.createdby === Meteor.userId(),
 								if:{
 									label:"Editar",
 									icon: <SysIcon name={'edit'}/>,
@@ -107,14 +107,14 @@ const ToDosListView = () => {
 									onClick: () => showNotification({
 									type: 'error',
 									title: 'Erro ao Editar Tarefa',
-									message: 'Você não tem permissão para Editar esse item, comunique o autor do item'
+									message: 'Você não tem permissão para Editar esse item.'
 								})
 
 								}
 							},
 
 							{
-								condition: (row) => !row.statusToggle,
+								condition: (row) => row.createdby === Meteor.userId(),
 								if:{
 									label:"Excluir",
 									icon: <SysIcon name={'delete'}/>,
@@ -143,7 +143,7 @@ const ToDosListView = () => {
 									onClick: () => showNotification({
 									type: 'error',
 									title: 'Erro ao Excluir Tarefa',
-									message: 'Você não tem permissão para Excluir esse item, comunique o autor do item'
+									message: 'Você não tem permissão para Excluir esse item.'
 								})
 
 								}
@@ -153,7 +153,7 @@ const ToDosListView = () => {
 						]}
 
 
-/* 						 {row.createdby === Meteor.userId()} }
+/* 						  }
  */
 						
 
@@ -202,7 +202,7 @@ const ToDosListView = () => {
 								<Box sx={{ flexGrow: 1 }} />
 								
 								
-								{!modal?.statusToggle ?
+								{modal?.createdby === Meteor.userId() ?
 									<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
 												<SysIcon name={ 'edit'} />
 									</IconButton> :

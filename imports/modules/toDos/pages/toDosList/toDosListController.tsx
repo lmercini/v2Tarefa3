@@ -209,7 +209,16 @@ const ToDosListController = () => {
 					isConcluded={(row.statusConcluded === 'Concluída')? true:false}
 					onClick={(event) => {
 						event.stopPropagation(); 
-						onChangeStatus(row);   
+						if (row.createdby === Meteor.userId()){
+							onChangeStatus(row)
+						}else{
+							showNotification({
+									type: 'error',
+									title: 'Erro ao Concluir Tarefa',
+									message: 'Você não tem permissão para alterar a situação do item.'
+								})
+
+						};   
 					}}
 				/>
 			)

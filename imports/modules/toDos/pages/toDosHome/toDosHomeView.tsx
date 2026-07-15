@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '../../../../ui/components/ComplexTable/ComplexTable';
 import DeleteDialog from '../../../../ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import ToDosHomeStyles from './toDosHomeStyles';
-import SysTextField from '../../../../ui/components/sysFormFields/sysTextField/sysTextField';
 import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
@@ -16,6 +15,8 @@ import ToDosHomeContext, { IToDosHomeContext } from './toDosHomeContext';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { ToDosHomeWrapper } from './toDosHomeWrapper';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
@@ -29,7 +30,8 @@ const ToDosHomeView = () => {
   }, []);
 
     const userName = user?.username
-
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));           
 
     const controller = React.useContext(ToDosHomeControllerContext);
     const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -50,11 +52,21 @@ const ToDosHomeView = () => {
                 </LoadingContainer>
             ) : (
                     <Box
-                    sx={{
+                    /* sx={
+                    isMobile ? { 
+                        display: 'flex',
+                        flexDirection: 'column',
+                        px: 0, // Zera o padding lateral (esquerda/direita)
+                        width: '100%',
+                        height: '100dvh' // Preenche a altura da tela
+                    } : undefined
+ */
+                     sx={{
                         width: '50%',
                         mx: 'auto',
                         height: 'max-content',
                     }}
+                
                     >                   
                     <Typography variant="h2" sx={{ mb: 4 }} align="center">Atividades Recentes</Typography>
 

@@ -11,6 +11,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { ptBR } from '@mui/x-data-grid/locales';
 import { ComplexTableRenderImg, ComplexTableRowText } from '/imports/ui/components/ComplexTable/ComplexTableStyle';
 import { hasValue } from '/imports/libs/hasValue';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
@@ -51,6 +53,9 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
         fieldsMaxWidthColumnModified,
         
     } = props;
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const transformData = (
             value: any,
@@ -124,19 +129,20 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
 
     
     return (
-        <Box sx={{ width: '100%', cursor: !!onRowClick ? 'pointer' : 'default' }}>    
+        <Box sx={ isMobile ? { padding: '0px', width: '100%', cursor: !!onRowClick ? 'pointer' : 'default' } :
+         { width: '100%', cursor: !!onRowClick ? 'pointer' : 'default' } }>    
                 <DataGrid
                     rows={data}
                     columns={columns}
 
-                    columnHeaderHeight={0}
-                        sx={{
-                            '& .MuiDataGrid-columnHeaders': {
+                    sx={ isMobile ? { padding: '0px' ,'& .MuiDataGrid-columnHeaders': {
                                 display: 'none',
-                            },
-                             
-                        }}
+                            }} : {'& .MuiDataGrid-columnHeaders': {
+                                display: 'none'
+                            }}}
 
+                    columnHeaderHeight={0}
+                       
                     localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
 
                     getRowId={!!getId ? getId : (row) => row._id}

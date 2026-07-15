@@ -57,6 +57,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	);
 
 	const handleSignIn = useCallback((email: string, password: string, callBack: (error: IMeteorError) => void) => {
+		console.log(email, password);
 		Meteor.loginWithPassword(email, password, (error) => callBack(error as IMeteorError));
 	}, []);
 

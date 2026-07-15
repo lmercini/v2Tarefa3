@@ -10,6 +10,7 @@ import { HomeResources, SysFormTestPageResources } from './resources';
 import SysFormPlayground from '../../sysPages/pages/sysFormPlayground/sysFormPlayground';
 import { Recurso } from '/imports/modules/toDos/config/recursos';
 import ToDosContainer from '../../modules/toDos/toDosContainer';
+import SignInNewPage from '../pages/signIn/signInNew';
 
 export const pagesRouterList: (IRoute | null)[] = [
 	{
@@ -45,6 +46,11 @@ export const pagesRouterList: (IRoute | null)[] = [
 	{
 		path: '/password-recovery',
 		component: PasswordRecovery,
+		templateVariant: 'None'
+	},
+	{
+		path: '/new-user',
+		component: SignInNewPage,
 		templateVariant: 'None'
 	},
 	{

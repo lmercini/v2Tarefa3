@@ -108,13 +108,13 @@ const sysYellowColors: Partial<Record<ColorKey, string>> = {
 
 //region Blue colors
 const sysBlueColors: Partial<Record<ColorKey, string>> = {
-  10: "#002339",
-  20: "#00395c",
-  30: "#004f80",
-  40: "#0066a5",
-  50: "#026fb4",
-  80: "#059fff",
-  95: "#e6f5ff",
+  10: "#001726",
+  20: "#002d49",
+  30: "#003f67",
+  40: "#004976",
+  50: "#005285",
+  80: "#2f81b4",
+  95: "#589ac6",
 } as const;
 //endregion
 

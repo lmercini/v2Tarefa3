@@ -24,7 +24,7 @@ const SignInPage: React.FC = () => {
 				navigate('/');
 				return;
 			}
-
+			console.log('Login erro:', err);
 			showNotification({
 				type: 'error',
 				title: 'Erro ao tentar logar',
@@ -33,7 +33,7 @@ const SignInPage: React.FC = () => {
 		});
 	};
 
-	const handleForgotPassword = () => navigate('/password-recovery');
+	const handleForgotPassword = () => navigate('/signup');
 
 	useEffect(() => {
 		if (user) navigate('/');
@@ -43,13 +43,9 @@ const SignInPage: React.FC = () => {
 		<Container>
 			<Content>
 				<Typography variant="h1" display={'inline-flex'} gap={1}>
-					<Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
-						{'{'}
-					</Typography>
+					
 					Boilerplate
-					<Typography variant="inherit" color="sysText.tertiary">
-						{'}'}
-					</Typography>
+					
 				</Typography>
 
 				<FormContainer>
@@ -60,7 +56,7 @@ const SignInPage: React.FC = () => {
 							<SysTextField label="Senha" fullWidth name="password" placeholder="Digite sua senha" type="password" />
 							<Button variant="text" sx={{ alignSelf: 'flex-end' }} onClick={handleForgotPassword}>
 								
-								<Typography variant="link">Esqueci minha senha</Typography>
+								<Typography variant="link">Novo usuário? Realizar Cadastro</Typography>
 							</Button>
 							<Box />
 							<SysFormButton variant="contained" color="primary" endIcon={<SysIcon name={'arrowForward'} />}>
