@@ -224,12 +224,7 @@ const ToDosListController = () => {
 			)
 		}));
 		}, [toDoss, onChangeStatus]);
-	
-	
-
-	
-		
-
+					
 	const providerValues: IToDosListContollerContext = useMemo(
 		() => ({
 			onClickConcluded: onChangeStatus,
@@ -241,9 +236,7 @@ const ToDosListController = () => {
 			loading,
 			page: page,
 			setPage: setPage,
-
 			total:total,
-
 			onChangeTextField,
 			onChangeCategory: onSelectedCategory,
 			navigateToHome: navigateToHome,
@@ -254,15 +247,7 @@ const ToDosListController = () => {
 		[todoListButton, toDoss,
 			onDeleteButtonClick, loading]
 	);
-
 	
-
-	
-	
-
-// PARA VERIFICAR O QUE ESTOU RECEBENDO NO FRONT 
-	console.log("DADOS QUE CHEGARAM DA API:", toDoss);
-
 	return (
 		<ToDosListControllerContext.Provider value={providerValues}>
 			<ToDosListView />

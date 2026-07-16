@@ -20,8 +20,6 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 
 		const self = this;
 
-		// PAREI AQUI
-
   this.registerMethod('totalCount', async ()=> 
 		{
 		  const filter ={
@@ -30,7 +28,7 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 			{createdby: Meteor.userId()}        
 		   ]}
 		  const total =  await this.collectionInstance.find(filter).countAsync();
-		  console.log("Total de tarefas",total)
+		  
 		  return total;
 	  })    
 
@@ -79,8 +77,7 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 	  (filter = {}, pages:{ page?: number, sort?: any}={} ) => {
 
 	  const userId = Meteor.userId();
-	  // IDENTIFICADOR DO ID USUARIO PARA TESTAR UMAS COISAS ------------------------------------
-	  console.log(userId)
+	  
 		const personalFilter = {
 		  ...filter,
 		$or:[
@@ -91,9 +88,6 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 		};
 	  const currentPage = pages.page || 1 
 	  const skipPages = (currentPage - 1)*taskPerPage;
-	  
-	  console.log(filter)
-
 	  
 		return this.defaultListCollectionPublication(personalFilter, {
 		  projection: {
@@ -115,19 +109,15 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 		  });
 	  },
 
-
 	  async (doc: IToDos & { nomeUsuario: string }) => {
 		  const userProfileDoc =
 			await userprofileServerApi.getCollectionInstance().findOneAsync({
 			  _id: doc.createdby,
 			});
-
 		  return { ...doc, username: userProfileDoc ? userProfileDoc.username : "Desconhecido" };
 		}
 	  
-	  
 	  );
-
 
 	this.addTransformedPublication(
 		'toDosHome',
@@ -143,7 +133,6 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 		  ]
 			
 		  };
-
 		
 		  return this.defaultListCollectionPublication(personalFilter, {
 			projection: {
@@ -176,10 +165,7 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 		}
 	  );
 
-
-
 	}
-
   beforeInsert(docObj: Partial<IToDos>, context: any) {
 		docObj.updatedate = new Date(); 
 

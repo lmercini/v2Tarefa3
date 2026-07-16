@@ -4,10 +4,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ToDosHomeControllerContext } from './toDosHomeController';
 import { useNavigate } from 'react-router-dom';
-import { ComplexTable } from '../../../../ui/components/ComplexTable/ComplexTable';
-import DeleteDialog from '../../../../ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import ToDosHomeStyles from './toDosHomeStyles';
-import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
@@ -38,7 +35,6 @@ const ToDosHomeView = () => {
     const navigate = useNavigate();
     const { Container, LoadingContainer, SearchContainer } = ToDosHomeStyles;
 
-    const options = [{ value: '', label: 'N enhum' }, ...(controller.schema.type.options?.() ?? [])];
 
     return (
         <Container>
@@ -52,20 +48,18 @@ const ToDosHomeView = () => {
                 </LoadingContainer>
             ) : (
                     <Box
-                    /* sx={
-                    isMobile ? { 
-                        display: 'flex',
-                        flexDirection: 'column',
-                        px: 0, // Zera o padding lateral (esquerda/direita)
+                  
+                     sx={
+                        isMobile ? {
+                        px: 0,
                         width: '100%',
-                        height: '100dvh' // Preenche a altura da tela
-                    } : undefined
- */
-                     sx={{
+                        mx: 'auto',
+                        height: 'fit-content',}:{ 
+                        
                         width: '50%',
                         mx: 'auto',
-                        height: 'max-content',
-                    }}
+                        height: 'max-content',}
+                    }
                 
                     >                   
                     <Typography variant="h2" sx={{ mb: 4 }} align="center">Atividades Recentes</Typography>
@@ -77,15 +71,12 @@ const ToDosHomeView = () => {
                         onRowClick={(row) => navigate('/toDos/view/' + row.id)}
                         
                         
-                    />
-
-                
-                     
+                    />                                  
                 </Box>
                 
             )}
 
-            <Box sx={{ mt: 5, display: 'flex', justifyContent: 'center' , width: '100%'}} >
+            <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' , width: '100%'}} >
 
             <SysFab
                 variant="extended"

@@ -4,8 +4,6 @@ import SysIcon from '../../../ui/components/sysIcon/sysIcon';
 
 export const userProfileMenuItemList: (IAppMenu | null)[] = [
 	{
-		path: '/',
-		name: 'Tarefas Recentes',
-		icon: <SysIcon name={'home'} />
+		
 	}
 ];

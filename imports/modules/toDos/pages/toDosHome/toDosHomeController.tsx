@@ -9,7 +9,8 @@ import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import { useNavigate } from 'react-router-dom';
 import { ToDosModuleContext, IToDosModuleContext } from '../../toDosContainer';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
@@ -30,14 +31,10 @@ interface IToDosHomeContollerContext {
     schema: ISchema<any>;
     loading: boolean;
     onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    
 }
 
-
-
 const teste = 0
-
-
 
 export const ToDosHomeControllerContext = React.createContext<IToDosHomeContollerContext>(
     {} as IToDosHomeContollerContext
@@ -50,16 +47,14 @@ const initialConfig = {
     viewComplexTable: false
 };
 
-
-
 const ToDosHomeController = () => {
 
     const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
     const { showNotification } = useContext(AppLayoutContext);
     const {id, state} = useContext<IToDosModuleContext>(ToDosModuleContext);
-
-
-    
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+   
     const navigate = useNavigate(); 
 
     const navigateToList = () => {
@@ -95,45 +90,26 @@ const ToDosHomeController = () => {
             });
 
 
-        })
-
-        
-
+        })       
 
     }
 
 , [showNotification]); 
 
-
     const { title, type, typeMulti, statusConcluded, statusIcon } = toDosApi.getSchema();
 
-
-
-    const toDosSchReduzido = { 	
+    const toDosSchReduzido = { 
         title, 
-        statusIcon, 
-        type, 
-/*         createdat: { type: Date, label: 'Criado em' },
- */          
-    };
         
-    /* const toDosSchReduzido = toDosSchReduzidoWithoutIcon.map(IToDosSchReduzido: task=>{
-        const statusIcon = task.statusConcluded === 'Concluída'? <SysIcon name = {'check'}/>: <SysIcon name = {'errorCircle'}/>
-
-        return{
-            ...task,
-            statusIcon
-        }
-    }) */
-
-   
-
+        statusIcon, 
+               
+    };
+     
     const { sortProperties, filter } = config;
     const sort = sortProperties.reduce((arr, prop) => {
         arr[prop.field] = prop.sortAscending ? 1 : -1;
         return arr;
     }, {} as Record<string, number>);
-
 
     const { loading, toDoss } = useTracker(() => {
         const subHandle = toDosApi.subscribe('toDosHome', filter, {
@@ -147,7 +123,6 @@ const ToDosHomeController = () => {
             total: subHandle ? subHandle.total : toDoss.length
         };
     }, [config]);
-
 
     const toDossWithIcon = toDoss.map(task=>{
         const statusIcon2 = task.statusConcluded === 'Concluída'?   <SysIcon name = {'task'} color ='success'/>: <SysIcon name = {'draft'} color ='primary'/>
@@ -178,51 +153,24 @@ const ToDosHomeController = () => {
         return () => clearTimeout(delayedSearch);
     }, []);
 
-    const onSelectedCategory = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        if (!value) {
-            setConfig((prev) => ({
-                ...prev,
-                filter: {
-                    ...prev.filter,
-                    type: { $ne: null }
-                }
-            }));
-            return;
-        }
-        setConfig((prev) => ({ ...prev, filter: { ...prev.filter, type: value } }));
-    }, []);
-
-
-   
-        
+              
     const providerValues: IToDosHomeContollerContext = useMemo(
         () => ({
             onClickConcluded: onChangeStatus,
             onAddButtonClick,
             onDeleteButtonClick,
-
             todoList: toDossWithIcon,
             schema: toDosSchReduzido,
             loading,
-            onChangeTextField,
-            onChangeCategory: onSelectedCategory,
-           
+            onChangeTextField,                     
             onClickArrowBack: onClickArrowBack,
             closePage: closePage,
             navigateToList:navigateToList,
             navigateToEdit: navigateToEdit
             
-
         }),
         [toDossWithIcon, loading]
     );
-
-
-    
-
-// APAGAR DEPOIS 
-    console.log("DADOS QUE CHEGARAM DA API:", toDossWithIcon);
 
     return (
         <ToDosHomeControllerContext.Provider value={providerValues}>

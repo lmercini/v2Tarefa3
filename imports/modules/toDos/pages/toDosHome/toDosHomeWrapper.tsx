@@ -31,7 +31,6 @@ interface IToDosHomeWrapperProps {
     disableSorting?: boolean;
     getId?: GridRowIdGetter<any>;
     
-    // Customizações opcionais de células
     renderCellModified?: (params: GridRenderCellParams) => JSX.Element;
     fieldsRenderCellModified?: { [key: string]: any };
     fieldsMinWidthColumnModified?: { [key: string]: number };
@@ -111,7 +110,7 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
                                 );
                                 const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
                                 return (
-                                    <ComplexTableRowText variant="h6" sx={{ textAlign: 'left' }}>
+                                    <ComplexTableRowText variant="h6" sx={{  textAlign: key === "statusIcon" ? "right" : "left" }}>
                                         <Tooltip title={value} arrow={true}>
                                             {value}
                                         </Tooltip>
@@ -129,7 +128,7 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
 
     
     return (
-        <Box sx={ isMobile ? { padding: '0px', width: '100%', cursor: !!onRowClick ? 'pointer' : 'default' } :
+        <Box sx={
          { width: '100%', cursor: !!onRowClick ? 'pointer' : 'default' } }>    
                 <DataGrid
                     rows={data}
@@ -155,10 +154,7 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
                                 }
                             : undefined
                     }
-                    getRowHeight={() => 'auto'}
-                    
-                    
-                    
+                    getRowHeight={() => 'auto'}                                     
                     loading={loading ?? undefined}
                     disableRowSelectionOnClick 
                     hideFooter={true}

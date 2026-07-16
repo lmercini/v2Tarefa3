@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ToDosListControllerContext } from './toDosListController';
 import { ToDosModuleContext, IToDosModuleContext } from '../../toDosContainer';
-import { Dialog, DialogTitle, DialogContent, DialogActions,} from '@mui/material';
+import { Dialog,  DialogContent} from '@mui/material';
 import Styles from '../toDosDetail/toDosDetailStyles'; // Importing the styles from the second snippet
 
 
@@ -21,7 +21,6 @@ import  IconButton  from '@mui/material/IconButton';
 import { Meteor } from 'meteor/meteor';
 
 import Pagination from '@mui/material/Pagination';
-import ToDosDetailView from '../toDosDetail/toDosDetailView';
 import ToDosListModal from './toDosListModal';
 
 
@@ -32,20 +31,13 @@ const ToDosListView = () => {
 	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
 	const {state} = useContext<IToDosModuleContext>(ToDosModuleContext); 
 	const { showNotification } = useContext(AppLayoutContext);
-
 	const navigate = useNavigate();
 	const { Container, LoadingContainer, SearchContainer } = ToDosListStyles;
-
 	const [openModal, setOpenModal] = useState(false);
 	const [modal, setModal] =  useState<any>(null) ;
-
-
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
-
-	const taskPerPage = 4
-	
+	const taskPerPage = 4	
 	const totalPages = Math.ceil(controller.total / taskPerPage)
-// teste commit
 	return (
 		<Container>
 			<Typography variant="h3">Lista de Itens </Typography>
@@ -83,7 +75,6 @@ const ToDosListView = () => {
 						onRowClick={(event) => {setOpenModal(true);
 							setModal(event.row);
 
-							console.log("OBJETO DA LINHA: ", event.row);
 						}}
 
 						searchPlaceholder={'Pesquisar exemplo'}
@@ -152,12 +143,6 @@ const ToDosListView = () => {
 
 						]}
 
-
-/* 						  }
- */
-						
-
-
 					/>
 				<Box  display ='flex' justifyContent='center'>
 					<Pagination
@@ -170,9 +155,7 @@ const ToDosListView = () => {
 						color='primary'
 						size='medium'
 						/> 
-				</Box>	
-					 
-					 
+				</Box>						 					 
 				</Box>
 
 			)}
@@ -184,8 +167,6 @@ const ToDosListView = () => {
 				fixed={true}
 				onClick={controller.onAddButtonClick}
 			/>
-
-
 			<Dialog
 				open={openModal}
 				onClose={() => setOpenModal(false)} 
@@ -211,20 +192,13 @@ const ToDosListView = () => {
 									</IconButton>
 								}
 								
-
 						</Styles.header>
 
-						<ToDosListModal modalObj={modal}/>
-
-					
-
-						
+						<ToDosListModal modalObj={modal}/>						
 				</DialogContent> 
 			</Dialog>
 
-		</Container>
-
-		
+		</Container>	
 	);
 };
 

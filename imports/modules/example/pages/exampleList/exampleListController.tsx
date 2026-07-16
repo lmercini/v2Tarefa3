@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useContext,  useState, useEffect } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -6,15 +6,9 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
-import { Meteor } from 'meteor/meteor';
-import  { ConcludedButton } from './exampleListContext';
-
-
-
 
 interface IInitialConfig {
-	sortProperties: { field: string; sortAscending: boolean }[];
+	sortProperties: { field: string; sortAscending: boolean };
 	filter: Object;
 	searchBy: string | null;
 	viewComplexTable: boolean;
@@ -24,136 +18,38 @@ interface IExampleListContollerContext {
 	onAddButtonClick: () => void;
 	onDeleteButtonClick: (row: any) => void;
 	todoList: IExample[];
-	todoListWithoutButtons: any[];
 	schema: ISchema<any>;
 	loading: boolean;
-	page: number;
-	setPage: React.Dispatch<React.SetStateAction<number>>;
-	total:number;
-
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	navigateToHome: () => void;
-	navigateToEdit?: (id:string) => void; 
-	
-
-	
-
 }
-
-
-
-
 
 export const ExampleListControllerContext = React.createContext<IExampleListContollerContext>(
 	{} as IExampleListContollerContext
 );
 
 const initialConfig = {
-	sortProperties: [{ field: 'statusConcluded', sortAscending: false },{ field: 'updatedate', sortAscending: false }],
+	sortProperties: { field: 'createdat', sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
 };
 
-
-
 const ExampleListController = () => {
-
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
-	const { showNotification } = useContext(AppLayoutContext);
 
-	const [total,setTotal] = useState(0)
-	
-
- 	const onChangeStatus = useCallback((row:any) => {
-
-		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
-
-		const docStatus = {...row, statusConcluded : newStatusConcluded}
-
-
-
-	
-        exampleApi.update(docStatus, (error: any) =>{
-
-			error? showNotification({
-                type: 'error',
-                title: 'Erro ao salvar',
-                message: error.reason || 'Ocorreu um erro na validação.'
-            }): showNotification({
-                type: (row.statusConcluded === 'Concluída') ? 'default' : 'success',
-                title: 'Tarefa Atualizada!',
-                message: `Situação da Tarefa: ${newStatusConcluded}`
-            });
-
-
-		})
-
-		
-
-
-    }
-
-, [showNotification]); 
-
-
-	const { title, type, typeMulti, statusToggle,  author,  } = exampleApi.getSchema();
-
-	
-
-	const exampleSchReduzido = { 	
-		columnButton: { label: 'Concluída', type: String },
-		title, 
-		type, 
-		typeMulti, 
-		createdat: { type: Date, label: 'Criado em' },
-		
-		
-		//updatedate: {type: Date, label: 'Ùltima Atualização'} 
-	};
-		
-
-	useEffect(()=>{
-		Meteor.call('example.totalCount',(err: any, result: number) => {
-			if (err) {
-					console.log("Erro ao contar as tarefas", err.message || err);
-			} else {
-				setTotal(result);
-			}
-		})
-	},[])
-
-
-
-
-
+	const { title, type, typeMulti } = exampleApi.getSchema();
+	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
 	const navigate = useNavigate();
- 
-	
-
-	const navigateToHome = () => {
-		navigate(`/example/home`)
-	}
-
-	const navigateToEdit = (id:string) => {
-		navigate(`/example/edit/${id}`)
-	}
-
 
 	const { sortProperties, filter } = config;
-
-	const sort = sortProperties.reduce((arr, prop) => {
-        arr[prop.field] = prop.sortAscending ? 1 : -1;
-        return arr;
-    }, {} as Record<string, number>);
-
-	const [page,setPage] = useState(1)
+	const sort = {
+		[sortProperties.field]: sortProperties.sortAscending ? 1 : -1
+	};
 
 	const { loading, examples } = useTracker(() => {
 		const subHandle = exampleApi.subscribe('exampleList', filter, {
-			sort,
-			page,
+			sort
 		});
 
 		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
@@ -162,7 +58,7 @@ const ExampleListController = () => {
 			loading: !!subHandle && !subHandle.ready(),
 			total: subHandle ? subHandle.total : examples.length
 		};
-	}, [config,page]);
+	}, [config]);
 
 	const onAddButtonClick = useCallback(() => {
 		const newDocumentId = nanoid();
@@ -170,7 +66,7 @@ const ExampleListController = () => {
 	}, []);
 
 	const onDeleteButtonClick = useCallback((row: any) => {
-		exampleApi.remove({ _id: row._id });
+		exampleApi.remove(row);
 	}, []);
 
 	const onChangeTextField = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,7 +76,7 @@ const ExampleListController = () => {
 				...prev,
 				filter: { ...prev.filter, title: { $regex: value.trim(), $options: 'i' } }
 			}));
-		}, 2000);
+		}, 1000);
 		return () => clearTimeout(delayedSearch);
 	}, []);
 
@@ -199,60 +95,18 @@ const ExampleListController = () => {
 		setConfig((prev) => ({ ...prev, filter: { ...prev.filter, type: value } }));
 	}, []);
 
-
-	const todoListButton= useMemo(() => {
-
-		return examples.map((row: any) => ({
-			...row, 
-			columnButton: (
-				<ConcludedButton
-					isConcluded={(row.statusConcluded === 'Concluída')? true:false}
-					onClick={(event) => {
-                        event.stopPropagation(); 
-                        onChangeStatus(row);   
-                    }}
-				/>
-			)
-		}));
-		}, [examples, onChangeStatus]);
-	
-	
-
-	
-		
-
 	const providerValues: IExampleListContollerContext = useMemo(
 		() => ({
-			onClickConcluded: onChangeStatus,
 			onAddButtonClick,
 			onDeleteButtonClick,
-			todoList:todoListButton ,
-			todoListWithoutButtons:examples,
+			todoList: examples,
 			schema: exampleSchReduzido,
 			loading,
-			page: page,
-			setPage: setPage,
-
-			total:total,
-
 			onChangeTextField,
-			onChangeCategory: onSelectedCategory,
-            navigateToHome: navigateToHome,
-			navigateToEdit: navigateToEdit,
-
-
+			onChangeCategory: onSelectedCategory
 		}),
-		[todoListButton, examples,
-			onDeleteButtonClick, loading]
+		[examples, loading]
 	);
-
-	
-
-	
-	
-
-// PARA VERIFICAR O QUE ESTOU RECEBENDO NO FRONT 
-	console.log("DADOS QUE CHEGARAM DA API:", examples);
 
 	return (
 		<ExampleListControllerContext.Provider value={providerValues}>
