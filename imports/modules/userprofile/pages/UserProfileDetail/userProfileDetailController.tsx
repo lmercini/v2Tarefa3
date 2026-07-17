@@ -12,12 +12,12 @@ interface IUserProfileDetailControllerContext {
 	loading: boolean;
 	schema: ISchema<IUserProfile>;
 	onSubmit: (doc: IUserProfile) => void;
-	mode: 'create' | 'edit';
+	mode: 'create' | 'view';
 	closeDialog: () => void;
 }
 
 interface IUserProfileDetailController {
-	mode: 'create' | 'edit';
+	mode: 'create' | 'view';
 	id?: string;
 }
 

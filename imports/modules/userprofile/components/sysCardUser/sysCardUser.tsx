@@ -54,7 +54,7 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 						</Tooltip>
 						<Tooltip title={'Editar'}>
 							<IconButton onClick={() => onEdit(userId)}>
-								<SysIcon name={'edit'} />
+								<SysIcon name={'person'} />
 							</IconButton>
 						</Tooltip>
 					</>

@@ -19,20 +19,26 @@ const UserProfileDetailView = () => {
 	return (
 		<Container>
 			<DialogTitle variant="subtitle1" sx={{ padding: 0 }}>
-				{mode === 'create' ? 'Adicionar usuário' : 'Editar usuário'}
+				{mode === 'create' ? 'Adicionar usuário' : 'Visualizar usuário'}
 			</DialogTitle>
 			<SysForm schema={schema} doc={user} mode={mode} onSubmit={onSubmit} ref={sysFormRef} loading={loading}>
 				<FieldsForm>
-					<SysTextField name="username" placeholder="Ex.: José da Silva" />
-					<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />
-					<SysTextField name="password" placeholder="Ex.: jose.silva@email.com" />
-					<SysSelectField name="roles" placeholder="Selecionar" />
-					<Actions>
+					<SysTextField name="username" placeholder="Ex.: José da Silva" disabled = {mode !== 'create'} />
+					<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" disabled={mode !== 'create'} />
+					{ mode !== 'create'? (<SysTextField name="roles" placeholder="Tipo" disabled />
+):(	<SysSelectField name="roles" placeholder="Tipo" />
+)}
+					{ mode === 'create' ? (<Actions>
 						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={closeDialog}>
 							Cancelar
 						</Button>
 						<SysFormButton startIcon={<SysIcon name={'check'} />}>Salvar</SysFormButton>
-					</Actions>
+					</Actions>):(<Actions>
+						<Button startIcon={<SysIcon name={'arrowBack'} />} onClick={closeDialog}>
+							Fechar
+						</Button>
+					</Actions>)}
+
 				</FieldsForm>
 			</SysForm>
 		</Container>

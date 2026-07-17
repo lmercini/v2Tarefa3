@@ -4,3 +4,9 @@ export enum Recurso {
 	TODOS_UPDATE = 'TODOS_UPDATE',
 	TODOS_REMOVE = 'TODOS_REMOVE',
 }
+
+
+export enum StatusConcluded {
+	CONCLUDED = "Concluída",
+	NCONCLUDED = "Não Concluída"
+}

@@ -11,7 +11,7 @@ import { ToDosModuleContext, IToDosModuleContext } from '../../toDosContainer';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import { StatusConcluded } from '../../config/recursos';
 
 
 
@@ -73,7 +73,7 @@ const ToDosHomeController = () => {
 
  const onChangeStatus = useCallback((row:any) => {
 
-        const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
+        const newStatusConcluded =  row.statusConcluded === StatusConcluded.NCONCLUDED ? 'Não Concluída':'Concluída'
 
         const docStatus = {...row, statusConcluded : newStatusConcluded}
 
@@ -84,7 +84,7 @@ const ToDosHomeController = () => {
                 title: 'Erro ao salvar',
                 message: error.reason || 'Ocorreu um erro na validação.'
             }): showNotification({
-                type: (row.statusConcluded === 'Concluída') ? 'default' : 'success',
+                type: (row.statusConcluded === StatusConcluded.NCONCLUDED) ? 'default' : 'success',
                 title: 'Tarefa Atualizada!',
                 message: `Situação da Tarefa: ${newStatusConcluded}`
             });
