@@ -24,6 +24,7 @@ interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'vari
 		container: SxProps<Theme>;
 		menuProps: SxProps<Theme> | null;
 	};
+	placeholder:string;
 }
 
 export const SysSelectField: React.FC<ISysSelectFieldProps> = ({

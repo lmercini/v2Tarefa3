@@ -8,13 +8,11 @@ import { toDosApi } from '../../api/toDosApi';
 import { IToDos } from '../../api/toDosSch';
 import { IMeteorError } from '/imports/typings/IMeteorError';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
-import ToDosDetailContext from './toDosDetailContext';
 
 const ToDosDetailController: React.FC = () => {
 
 	const {id, state} = useContext<IToDosModuleContext>(ToDosModuleContext);
 	const { showNotification } = useContext(AppLayoutContext);
-	const context = useContext<IToDosDetailContext>(ToDosDetailContext);
 
 	const navigate = useNavigate(); 
 

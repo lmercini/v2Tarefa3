@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import ToDosHomeStyles from './toDosHomeStyles';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
-import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import ToDosHomeContext, { IToDosHomeContext } from './toDosHomeContext';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -31,9 +30,8 @@ const ToDosHomeView = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));           
 
     const controller = React.useContext(ToDosHomeControllerContext);
-    const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
     const navigate = useNavigate();
-    const { Container, LoadingContainer, SearchContainer } = ToDosHomeStyles;
+    const { Container, LoadingContainer } = ToDosHomeStyles;
 
 
     return (

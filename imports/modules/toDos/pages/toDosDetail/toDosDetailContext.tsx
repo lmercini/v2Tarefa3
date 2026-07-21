@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import {createContext} from 'react';
 import { IToDos } from '../../api/toDosSch';
 
 interface IToDosDetailContext {

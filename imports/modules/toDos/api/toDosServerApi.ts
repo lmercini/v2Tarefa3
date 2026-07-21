@@ -12,7 +12,6 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 	constructor() {
 		super('toDos', toDosSch, {
 			resources: Recurso
-			// saveImageToDisk: true,
 		});
 
 	

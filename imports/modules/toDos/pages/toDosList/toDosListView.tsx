@@ -1,13 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ToDosListControllerContext } from './toDosListController';
-import { ToDosModuleContext, IToDosModuleContext } from '../../toDosContainer';
 import { Dialog,  DialogContent} from '@mui/material';
 import Styles from '../toDosDetail/toDosDetailStyles'; // Importing the styles from the second snippet
-
-
 import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '../../../../ui/components/ComplexTable/ComplexTable';
 import DeleteDialog from '../../../../ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
@@ -19,22 +16,38 @@ import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import  IconButton  from '@mui/material/IconButton';
 import { Meteor } from 'meteor/meteor';
-
 import Pagination from '@mui/material/Pagination';
 import ToDosListModal from './toDosListModal';
 
 
-
+interface IModal{
+	audio: null
+	author: string
+	columnButton: ReactNode
+	createdat: Date
+	createdby: string
+	hasaudio: boolean
+	hasimage: boolean
+	image: null
+	imageThumbnail: null
+	statusConcluded: string
+	statusToggle: boolean
+	title: string
+	type: string
+	typeMulti: string
+	updatedate: Date
+	username: string
+	_id: string
+	}
 
 const ToDosListView = () => {
 	const controller = React.useContext(ToDosListControllerContext);
 	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
-	const {state} = useContext<IToDosModuleContext>(ToDosModuleContext); 
 	const { showNotification } = useContext(AppLayoutContext);
 	const navigate = useNavigate();
 	const { Container, LoadingContainer, SearchContainer } = ToDosListStyles;
 	const [openModal, setOpenModal] = useState(false);
-	const [modal, setModal] =  useState<any>(null) ;
+	const [modal, setModal] =  useState<IModal | null>(null) ;
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 	const taskPerPage = 4	
 	const totalPages = Math.ceil(controller.total / taskPerPage)
@@ -74,6 +87,7 @@ const ToDosListView = () => {
 						schema={controller.schema}
 						onRowClick={(event) => {setOpenModal(true);
 							setModal(event.row);
+							console.log(modal)
 
 						}}
 

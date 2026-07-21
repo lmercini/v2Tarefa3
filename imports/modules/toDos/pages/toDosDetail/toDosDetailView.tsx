@@ -14,7 +14,6 @@ import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioBut
 import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import { Meteor } from 'meteor/meteor';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import SysSwitch from '/imports/ui/components/sysFormFields/sysSwitch/sysSwitch';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';

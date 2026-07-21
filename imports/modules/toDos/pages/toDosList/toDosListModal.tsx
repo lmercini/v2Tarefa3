@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import Styles from '../toDosDetail/toDosDetailStyles'; // Importing the styles from the second snippet
 import Typography from '@mui/material/Typography';
-import ToDosDetailContext, { IToDosDetailContext } from '../toDosDetail/toDosDetailContext';
 import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface IToDosListModalProps {
-    modalObj: any;
+    modalObj: IModal;
 }
 
 const ToDosListModal: React.FC<IToDosListModalProps> = ({modalObj}) => {
@@ -37,66 +36,66 @@ const ToDosListModal: React.FC<IToDosListModalProps> = ({modalObj}) => {
                 <Styles.body>   
                 
                 <Styles.formColumn>
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Nome
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.title || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Categoria
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.type || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Prioridade
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.typeMulti === 'alta' ? 'Alta': modalObj?.typeMulti === 'media'? 'Média': 'Baixa' }
                         </Typography>
-                    </div>                
-                    <div>
+                    </Box>                
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Descrição (opcional)
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.description || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Situação
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.statusConcluded || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Autor
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.username || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Tarefa Pessoal
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
+                    <Box style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
                            
                             <Switch
                             checked={modalObj?.statusToggle}
@@ -108,7 +107,7 @@ const ToDosListModal: React.FC<IToDosListModalProps> = ({modalObj}) => {
                                  {modalObj?.statusToggle? 'Sim':'Não'} 
                             </Typography>
 
-                    </div>
+                    </Box>
                
                 </Styles.formColumn>
 
@@ -126,71 +125,71 @@ const ToDosListModal: React.FC<IToDosListModalProps> = ({modalObj}) => {
         <Styles.body>   
                 
                 <Styles.formColumn>
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Nome
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.title || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Categoria
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.type || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Prioridade
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.typeMulti === 'alta' ? 'Alta': modalObj?.typeMulti === 'media'? 'Média': 'Baixa' }
                         </Typography>
-                    </div>
+                    </Box>
                 
                 </Styles.formColumn>
 
                 <Styles.formColumn>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Descrição (opcional)
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.description || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Situação
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.statusConcluded || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Autor
                         </Typography>
                         <Typography variant="body1">
                             {modalObj?.username || '-'}
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box>
                         <Typography variant="body2" color="textSecondary">
                             Tarefa Pessoal
                         </Typography>
-                    </div>
+                    </Box>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
+                    <Box style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
                            
                             <Switch
                             checked={modalObj?.statusToggle}
@@ -202,7 +201,7 @@ const ToDosListModal: React.FC<IToDosListModalProps> = ({modalObj}) => {
                                  {modalObj?.statusToggle? 'Sim':'Não'} 
                             </Typography>
 
-                    </div>
+                    </Box>
                
                 </Styles.formColumn>
 

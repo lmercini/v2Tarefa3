@@ -96,13 +96,11 @@ const ToDosHomeController = () => {
 
 , [showNotification]); 
 
-    const { title, type, typeMulti, statusConcluded, statusIcon } = toDosApi.getSchema();
+    const { title, statusIcon } = toDosApi.getSchema();
 
     const toDosSchReduzido = { 
-        title, 
-        
-        statusIcon, 
-               
+        title,  
+        statusIcon,                
     };
      
     const { sortProperties, filter } = config;

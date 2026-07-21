@@ -44,7 +44,6 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
         loading,		
         onRowClick,		
         getId,
-        autoHeight,
         renderCellModified,
         fieldsRenderCellModified,
         disableSorting,
@@ -144,7 +143,7 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
                        
                     localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
 
-                    getRowId={!!getId ? getId : (row) => row._id}
+                    getRowId={getId ?? ((row) => row._id)}
                     
                     onRowClick={
                         !!onRowClick
@@ -155,7 +154,7 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
                             : undefined
                     }
                     getRowHeight={() => 'auto'}                                     
-                    loading={loading ?? undefined}
+                    loading={loading}
                     disableRowSelectionOnClick 
                     hideFooter={true}
                     

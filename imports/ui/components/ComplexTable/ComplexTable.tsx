@@ -433,7 +433,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				autoHeight={autoHeight ?? true}
 				localeText={locale}
 				hideFooter={true}
-				getRowId={!!getId ? getId : (row) => row._id}
+                getRowId={getId ?? ((row) => row._id)}
 				onRowSelectionModelChange={(newSelection) =>
 					setSelection(newSelection?.ids ? Array.from(newSelection.ids) : [])
 				}
@@ -491,7 +491,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							}
 						: undefined
 				}
-				loading={loading ?? undefined}
+				loading={loading}
 				checkboxSelection={disableCheckboxSelection ? false : true}
 				disableColumnFilter
 				disableColumnMenu

@@ -98,7 +98,7 @@ const ToDosListController = () => {
 , [showNotification]); 
 
 
-	const { title, type, typeMulti, statusToggle,  author,  } = toDosApi.getSchema();
+	const { title, type, typeMulti} = toDosApi.getSchema();
 
 	
 
@@ -110,12 +110,12 @@ const ToDosListController = () => {
 		createdat: { type: Date, label: 'Criado em' },
 		
 		
-		//updatedate: {type: Date, label: 'Ùltima Atualização'} 
+	
 	};
 		
 
 	useEffect(()=>{
-		Meteor.call('toDos.totalCount',(err: any, result: number) => {
+		Meteor.call('toDos.totalCount',(err: Meteor.Error | null, result: number) => {
 			if (err) {
 					console.log("Erro ao contar as tarefas", err.message || err);
 			} else {
