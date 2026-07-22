@@ -5,14 +5,16 @@ import Todos from './toDos/config';
 
 const pages: Array<IRoute | null> = [
 	...Example.pagesRouterList, 
+	...Todos.pagesRouterList,
 	...UserProfile.pagesRouterList,
-	...Todos.pagesRouterList
+	
 ];
 
 const menuItens: Array<IAppMenu | null> = [
 	...Example.pagesMenuItemList, 
+	...Todos.pagesMenuItemList,
 	...UserProfile.pagesMenuItemList,
-	...Todos.pagesMenuItemList
+	
 ];
 
 const Modules: IModuleHub = {

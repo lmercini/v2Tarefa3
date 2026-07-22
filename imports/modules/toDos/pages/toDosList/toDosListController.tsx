@@ -24,7 +24,7 @@ interface IToDosListContollerContext {
 	onAddButtonClick: () => void;
 	onDeleteButtonClick: (row: any) => void;
 	todoList: IToDos[];
-	todoListWithoutButtons: any[];
+	todoListWithoutButtons: Object[];
 	schema: ISchema<any>;
 	loading: boolean;
 	page: number;

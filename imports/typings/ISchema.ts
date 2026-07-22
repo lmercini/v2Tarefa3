@@ -32,6 +32,7 @@ export interface IDefField<C> {
 	max?: number;
 	min?: number;
 	radiosList?: Array<string>;
+	renderKey?: string
 }
 
 export interface ISchema<T extends IDoc> {

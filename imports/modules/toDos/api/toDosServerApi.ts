@@ -5,6 +5,7 @@ import { userprofileServerApi } from '../../../modules/userprofile/api/userProfi
 import { ProductServerBase } from '../../../api/productServerBase';
 import { IUserProfile } from '../../userprofile/api/userProfileSch';
 import { Meteor } from 'meteor/meteor';
+import { IContext } from '/imports/typings/IContext';
 
 // endregion
 
@@ -73,7 +74,7 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 	this.addTransformedPublication(
 	  'toDosList' ,
 
-	  (filter = {}, pages:{ page?: number, sort?: any}={} ) => {
+	  (filter = {}, pages:{ page?: number, sort?:  Object[]}={} ) => {
 
 	  const userId = Meteor.userId();
 	  
@@ -122,8 +123,7 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 		'toDosHome',
 		(filter = {}) => {
 
-		const userId = Meteor.userId();
-		  const personalFilter = {
+		const personalFilter = {
 			...filter,
 		  $or:[
 		  {statusToggle: false},
@@ -165,13 +165,13 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 	  );
 
 	}
-  beforeInsert(docObj: Partial<IToDos>, context: any) {
+  beforeInsert(docObj: Partial<IToDos>, context: IContext) {
 		docObj.updatedate = new Date(); 
 
 		return super.beforeUpdate(docObj, context); 
 	}
 
-  beforeUpdate(docObj: Partial<IToDos>, context: any) {
+  beforeUpdate(docObj: Partial<IToDos>, context: IContext) {
 		docObj.updatedate = new Date(); 
 
 		return super.beforeUpdate(docObj, context); 

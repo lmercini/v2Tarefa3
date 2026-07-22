@@ -16,7 +16,7 @@ export const toDosRouterList: (IRoute | null)[] = [
 		resources: [Recurso.TODOS_CREATE]
 	},
 	{
-		path: '/toDos',
+		path: '/toDos/view',
 		component: ToDosContainer,
 		isProtected: true,
 		resources: [Recurso.TODOS_VIEW]

@@ -13,17 +13,13 @@ import { ComplexTableRenderImg, ComplexTableRowText } from '/imports/ui/componen
 import { hasValue } from '/imports/libs/hasValue';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { ISchema } from '../../../../typings/ISchema';
 
 
-
-
-interface ISchema {
-    [key: string]: any;
-}
 
 interface IToDosHomeWrapperProps {
 
-    schema: ISchema;
+    schema: ISchema<any>;
     data: any[];
     onRowClick?: (row: GridRowParams) => void;
     loading?: boolean;
@@ -32,7 +28,7 @@ interface IToDosHomeWrapperProps {
     getId?: GridRowIdGetter<any>;
     
     renderCellModified?: (params: GridRenderCellParams) => JSX.Element;
-    fieldsRenderCellModified?: { [key: string]: any };
+    fieldsRenderCellModified?: {[key: string]: any};
     fieldsMinWidthColumnModified?: { [key: string]: number };
     fieldsMaxWidthColumnModified?: { [key: string]: number };
 }

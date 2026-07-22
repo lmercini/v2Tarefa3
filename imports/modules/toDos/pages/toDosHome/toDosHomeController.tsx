@@ -58,7 +58,7 @@ const ToDosHomeController = () => {
     const navigate = useNavigate(); 
 
     const navigateToList = () => {
-            navigate(`/toDos`)
+            navigate(`/toDos/view`)
         }
     
     const navigateToEdit = () => {

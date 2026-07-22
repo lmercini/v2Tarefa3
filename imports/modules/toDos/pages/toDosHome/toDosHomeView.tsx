@@ -87,7 +87,6 @@ const ToDosHomeView = () => {
            
             </Box>
 
-            {JSON.stringify(context.document)}
         </Container>
     );
 };
