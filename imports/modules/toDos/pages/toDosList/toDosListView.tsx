@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ToDosListControllerContext } from './toDosListController';
 import { Dialog,  DialogContent} from '@mui/material';
-import Styles from '../toDosDetail/toDosDetailStyles'; // Importing the styles from the second snippet
+import Styles from '../toDosDetail/toDosDetailStyles'; 
 import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '../../../../ui/components/ComplexTable/ComplexTable';
 import DeleteDialog from '../../../../ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
@@ -20,10 +20,11 @@ import Pagination from '@mui/material/Pagination';
 import ToDosListModal from './toDosListModal';
 
 
-interface IModal{
+export interface IModal{
 	audio: null
 	author: string
 	columnButton: ReactNode
+	description: string
 	createdat: Date
 	createdby: string
 	hasaudio: boolean
@@ -51,6 +52,31 @@ const ToDosListView = () => {
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 	const taskPerPage = 4	
 	const totalPages = Math.ceil(controller.total / taskPerPage)
+	const currentUser = Meteor.userId()
+
+	const RowButtons = (label:string, onClick: ( row: any) => void) => {
+
+		return { condition: (row:any) => row.createdby === currentUser ,
+			if: {
+				label: label,
+				icon: <SysIcon name = {label === 'Editar'? 'edit':'delete'} />,
+				onClick: onClick
+			},
+			else: {
+				label: label,
+				icon: ( <Box component="span" sx={{ opacity: 0.3, cursor: 'not-allowed' }}>
+				<SysIcon name = {label === 'Editar'? 'edit':'delete'} />
+				</Box>),
+				onClick:() => showNotification({
+					type: 'error',
+					title: `Erro ao ${label} Tarefa`,
+					message: `Você não tem permissão para ${label} esse item.`})
+
+			}	
+		}
+
+	}
+
 	return (
 		<Container>
 			<Typography variant="h3">Lista de Itens </Typography>
@@ -87,74 +113,26 @@ const ToDosListView = () => {
 						schema={controller.schema}
 						onRowClick={(event) => {setOpenModal(true);
 							setModal(event.row);
-							console.log(modal)
 
 						}}
-
 						searchPlaceholder={'Pesquisar exemplo'}
-						
 
 						conditionalActions={[
-							{
-								condition: (row) => row.createdby === Meteor.userId(),
-								if:{
-									label:"Editar",
-									icon: <SysIcon name={'edit'}/>,
-									onClick: (row) => navigate('/toDos/edit/' + row._id)
-
-								},
-								else:{
-									label:"Editar",
-									icon: (<span style={{ opacity: 0.3, cursor: 'not-allowed' }}>
-										<SysIcon name={'edit'}/>
-									</span>
-									),
-									onClick: () => showNotification({
-									type: 'error',
-									title: 'Erro ao Editar Tarefa',
-									message: 'Você não tem permissão para Editar esse item.'
-								})
-
-								}
-							},
-
-							{
-								condition: (row) => row.createdby === Meteor.userId(),
-								if:{
-									label:"Excluir",
-									icon: <SysIcon name={'delete'}/>,
-									onClick: (row) => {
-											DeleteDialog({
-												showDialog: sysLayoutContext.showDialog,
-												closeDialog: sysLayoutContext.closeDialog,
-												title: `Excluir dado ${row.title}`,
-												message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
-												onDeleteConfirm: () => {
-													controller.onDeleteButtonClick(row);
-													sysLayoutContext.showNotification({
-														message: 'Excluído com sucesso!'
-													});
-												}
-											});
-						}
-
-								},
-								else:{
-									label:"Excluir",
-									icon: (<span style={{ opacity: 0.3, cursor: 'not-allowed' }}>
-										<SysIcon name={'delete'}/>
-									</span>
-									),
-									onClick: () => showNotification({
-									type: 'error',
-									title: 'Erro ao Excluir Tarefa',
-									message: 'Você não tem permissão para Excluir esse item.'
-								})
-
-								}
-							}
-
-
+							RowButtons('Editar',(row) => navigate('/toDos/edit/' + row._id)) ,
+							RowButtons('Excluir',(row) => {
+								DeleteDialog({
+									showDialog: sysLayoutContext.showDialog,
+									closeDialog: sysLayoutContext.closeDialog,
+									title: `Excluir dado ${row.title}`,
+									message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
+									onDeleteConfirm: () => {
+										controller.onDeleteButtonClick(row);
+										sysLayoutContext.showNotification({
+											message: 'Excluído com sucesso!'
+										});
+									}
+								});
+							})
 						]}
 
 					/>
@@ -197,7 +175,7 @@ const ToDosListView = () => {
 								<Box sx={{ flexGrow: 1 }} />
 								
 								
-								{modal?.createdby === Meteor.userId() ?
+								{modal?.createdby === currentUser ?
 									<IconButton onClick={()=>{controller.navigateToEdit?.(modal._id)}} >
 												<SysIcon name={ 'edit'} />
 									</IconButton> :

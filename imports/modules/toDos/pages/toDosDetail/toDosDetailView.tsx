@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import Styles from './toDosDetailStyles'; // Importing the styles from the second snippet
+import React, { useContext } from 'react';
+import Styles from './toDosDetailStyles'; 
 import Typography from '@mui/material/Typography';
 import { ToDosModuleContext, IToDosModuleContext } from '../../toDosContainer';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon'; // Assuming you have a SysIcon component for icons
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon'; 
 import  IconButton  from '@mui/material/IconButton';
 import ToDosDetailContext, { IToDosDetailContext } from './toDosDetailContext';
 import Box from '@mui/material/Box';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
-import { toDosSch } from '../../api/toDosSch'; // Assuming you have a schema for the form
+import { toDosSch } from '../../api/toDosSch'; 
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
@@ -15,102 +15,49 @@ import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import { Meteor } from 'meteor/meteor';
 import SysSwitch from '/imports/ui/components/sysFormFields/sysSwitch/sysSwitch';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-
+import { PageStatus } from '../../config/recursos';
 
 
 const ToDosDetailView: React.FC = () => {
 
-		
 	const {state} = useContext<IToDosModuleContext>(ToDosModuleContext); 
 	const context = useContext<IToDosDetailContext>(ToDosDetailContext);
 	const doc = context.document
 	const author = doc?.username
-
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-	
-
-	   
+	const currentUser = Meteor.userId()
 
 	return (
 		
-		<Styles.container
-		sx={{padding: isMobile ? '2px' : '20 128px'}}>
+		<Styles.container>
 
 			<Styles.header>
-				{state == 'view' && 
+				{state == PageStatus.VIEW && 
 					<IconButton onClick={context.closePage} > 
 						<SysIcon name='arrowBack'/>
 					</IconButton>
-				 
 				}
 				<Typography variant="h5">
-					{state === 'view' ? ` Item ${context.document?.title}`: `${state === 'edit' ? 'Editar' : 'Adicionar'} item`}
+					{state === PageStatus.VIEW ? ` Item ${context.document?.title}`: `${state === PageStatus.EDIT ? 'Editar' : 'Adicionar'} item`}
 				</Typography>
 				<Box sx={{ flexGrow: 1 }} />
-				<IconButton onClick={state == 'view' && doc?.createdby === Meteor.userId() ? context.navigateToEdit : context.closePage} >
-					<SysIcon name={state === 'view' && doc?.createdby === Meteor.userId() ? 
+				<IconButton onClick={state == PageStatus.VIEW && doc?.createdby === currentUser ? context.navigateToEdit : context.closePage} >
+					<SysIcon name={state === PageStatus.VIEW && doc?.createdby === currentUser ? 
 						 'edit' : 'close'} />
 				</IconButton>
 			</Styles.header>
 
-
 		<SysForm 
 			schema={toDosSch}
 			doc = {context.document}
-			mode={state as 'view' | 'edit' | 'create'    }
+			mode={state as PageStatus.VIEW | PageStatus.EDIT | PageStatus.CREATE}
 			onSubmit={context.onSubmit}
 		>
-		  				
-		{isMobile ? (
-
-					<Styles.body sx={{ 
-							flexDirection: 'column' , 
-							gap: '16px',
-							padding: '16px' 
-						}}>
-					<Styles.formColumn>
-					<SysTextField name='title' />
-
-					<SysSelectField name='type'  />
-
-					<SysRadioButton name='typeMulti' childrenAlignment='row'/>
-
-					<SysTextField 
-					name='description'
-					placeholder='Acrescente uma descrição para o item'
-					multiline
-					rows= {3}
-					showNumberCharactersTyped
-					max={200} 
-					/>
-				 
-					<SysSelectField name='statusConcluded'  />
-												   
-					{author && (
-					<SysTextField 
-						name='author'                                                                       
-						defaultValue={author}
-						readOnly={true} 
-						showLabelAdornment=  {false}
-						/>
-					)}
-
-					<SysSwitch name= "statusToggle" 
-					label='Tarefa Pessoal'/>
-
-				
-				</Styles.formColumn>
-				</Styles.body>
-				):(
 					<Styles.body>
 					
 					<Styles.formColumn>
-					<SysTextField name='title' />
+					<SysTextField name='title' placeholder='Digite o nome do item' />
 
-					<SysSelectField name='type'  />
+					<SysSelectField name='type' placeholder='Selecione uma categoria' />
 
 					<SysRadioButton name='typeMulti' childrenAlignment='row'/>
 										
@@ -127,7 +74,7 @@ const ToDosDetailView: React.FC = () => {
 					max={200} 
 					/>
 				 
-					<SysSelectField name='statusConcluded'  />
+					<SysSelectField name='statusConcluded' placeholder='Selecione uma opção' />
 														   
 					{author && (
 					<SysTextField 
@@ -143,12 +90,10 @@ const ToDosDetailView: React.FC = () => {
 
 				</Styles.formColumn>
 				</Styles.body>
-
-				)}
 		
 		<Styles.footer>
 
-			{state != 'view' && (<Button
+			{state != PageStatus.VIEW && (<Button
 			variant='outlined'
 			startIcon={<SysIcon name='close' />}
 			onClick={context.closePage}

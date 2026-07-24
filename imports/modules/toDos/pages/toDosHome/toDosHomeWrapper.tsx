@@ -11,8 +11,6 @@ import Tooltip from '@mui/material/Tooltip';
 import { ptBR } from '@mui/x-data-grid/locales';
 import { ComplexTableRenderImg, ComplexTableRowText } from '/imports/ui/components/ComplexTable/ComplexTableStyle';
 import { hasValue } from '/imports/libs/hasValue';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { ISchema } from '../../../../typings/ISchema';
 
 
@@ -25,8 +23,7 @@ interface IToDosHomeWrapperProps {
     loading?: boolean;
     autoHeight?: boolean;
     disableSorting?: boolean;
-    getId?: GridRowIdGetter<any>;
-    
+    getId?: GridRowIdGetter<any>; 
     renderCellModified?: (params: GridRenderCellParams) => JSX.Element;
     fieldsRenderCellModified?: {[key: string]: any};
     fieldsMinWidthColumnModified?: { [key: string]: number };
@@ -47,9 +44,6 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
         fieldsMaxWidthColumnModified,
         
     } = props;
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const transformData = (
             value: any,
@@ -103,7 +97,6 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
                                     schema[key].renderKey,
                                     schema[key]?.options?.(params.row)
                                 );
-                                const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
                                 return (
                                     <ComplexTableRowText variant="h6" sx={{  textAlign: key === "statusIcon" ? "right" : "left" }}>
                                         <Tooltip title={value} arrow={true}>
@@ -117,11 +110,6 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
             };
         });
 
-        
-
-    
-
-    
     return (
         <Box sx={
          { width: '100%', cursor: !!onRowClick ? 'pointer' : 'default' } }>    
@@ -129,25 +117,20 @@ export const ToDosHomeWrapper = (props: IToDosHomeWrapperProps) =>{
                     rows={data}
                     columns={columns}
 
-                    sx={ isMobile ? { padding: '0px' ,'& .MuiDataGrid-columnHeaders': {
-                                display: 'none',
-                            }} : {'& .MuiDataGrid-columnHeaders': {
-                                display: 'none'
-                            }}}
+                    sx={{
+                        padding:  {xs: '0px' },
+                        '& .MuiDataGrid-columnHeaders': {display: 'none'},
+                    }}
 
                     columnHeaderHeight={0}
-                       
                     localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-
                     getRowId={getId ?? ((row) => row._id)}
                     
-                    onRowClick={
-                        !!onRowClick
-                            ? (params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
-                                    event.stopPropagation();
-                                    onRowClick(params);
+                    onRowClick={ !!onRowClick ? (params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
+                                event.stopPropagation();
+                                onRowClick(params);
                                 }
-                            : undefined
+                                : undefined
                     }
                     getRowHeight={() => 'auto'}                                     
                     loading={loading}

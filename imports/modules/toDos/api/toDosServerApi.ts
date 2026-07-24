@@ -1,4 +1,3 @@
-// region Imports
 import { Recurso } from '../config/recursos';
 import { toDosSch, IToDos } from './toDosSch';
 import { userprofileServerApi } from '../../../modules/userprofile/api/userProfileServerApi';
@@ -7,18 +6,11 @@ import { IUserProfile } from '../../userprofile/api/userProfileSch';
 import { Meteor } from 'meteor/meteor';
 import { IContext } from '/imports/typings/IContext';
 
-// endregion
-
 class ToDosServerApi extends ProductServerBase<IToDos> {
 	constructor() {
 		super('toDos', toDosSch, {
 			resources: Recurso
 		});
-
-	
-   
-
-		const self = this;
 
   this.registerMethod('totalCount', async ()=> 
 		{
@@ -73,11 +65,8 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 
 	this.addTransformedPublication(
 	  'toDosList' ,
-
 	  (filter = {}, pages:{ page?: number, sort?:  Object[]}={} ) => {
 
-	  const userId = Meteor.userId();
-	  
 		const personalFilter = {
 		  ...filter,
 		$or:[
@@ -127,8 +116,7 @@ class ToDosServerApi extends ProductServerBase<IToDos> {
 			...filter,
 		  $or:[
 		  {statusToggle: false},
-		   {createdby: Meteor.userId()} 
-		  
+		  {createdby: Meteor.userId()} 
 		  ]
 			
 		  };

@@ -1,4 +1,4 @@
-import React, {ElementType} from 'react';
+import {ElementType} from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -18,7 +18,7 @@ interface IStyles{
 }
 
 const ToDosDetailStyles: IStyles = {
-		container: styled(Box)({
+		container: styled(Box)(({ theme }) => ({
 		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
 		paddingBottom: `${sysSizing.contentPb}`,
 		display: 'flex',
@@ -26,11 +26,16 @@ const ToDosDetailStyles: IStyles = {
 		width: '100%',
 		justifyContent: 'flex-start',
 		alignItems: 'stretch',
-		gap: sysSizing.spacingFixedMd
+		gap: sysSizing.spacingFixedMd,
+
+		[theme.breakpoints.down('md')]: {
+
+		padding: '2px',
+		}
 
 
+	})),
 
-	}),
 	customButton: styled(Button)({
 
 
@@ -45,13 +50,21 @@ const ToDosDetailStyles: IStyles = {
 
 	}),
 
-	body: styled(Box)({
+	body: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: '64px',
 		minHeight: '400px',
 		alignItems: 'stretch',
-	}),
+
+		[theme.breakpoints.down('md')]: {
+
+		padding: '16px',
+		flexDirection: 'column' , 
+		gap: '16px',
+		}
+
+	})),
 
 	formColumn: styled(Box)({
 		display: 'flex',

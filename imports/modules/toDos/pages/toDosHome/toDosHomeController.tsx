@@ -9,8 +9,6 @@ import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import { useNavigate } from 'react-router-dom';
 import { ToDosModuleContext, IToDosModuleContext } from '../../toDosContainer';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { StatusConcluded } from '../../config/recursos';
 
 
@@ -34,7 +32,7 @@ interface IToDosHomeContollerContext {
     
 }
 
-const teste = 0
+
 
 export const ToDosHomeControllerContext = React.createContext<IToDosHomeContollerContext>(
     {} as IToDosHomeContollerContext
@@ -51,9 +49,7 @@ const ToDosHomeController = () => {
 
     const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
     const { showNotification } = useContext(AppLayoutContext);
-    const {id, state} = useContext<IToDosModuleContext>(ToDosModuleContext);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const {id} = useContext<IToDosModuleContext>(ToDosModuleContext);
    
     const navigate = useNavigate(); 
 
@@ -123,7 +119,7 @@ const ToDosHomeController = () => {
     }, [config]);
 
     const toDossWithIcon = toDoss.map(task=>{
-        const statusIcon2 = task.statusConcluded === 'Concluída'?   <SysIcon name = {'task'} color ='success'/>: <SysIcon name = {'draft'} color ='primary'/>
+        const statusIcon2 = task.statusConcluded === StatusConcluded.NCONCLUDED?   <SysIcon name = {'task'} color ='success'/>: <SysIcon name = {'draft'} color ='primary'/>
         return {
             ...task,
             statusIcon: statusIcon2

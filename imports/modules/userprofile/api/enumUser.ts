@@ -7,8 +7,6 @@ export enum EnumUserRoles {
 	SUPERADMINISTRADOR = 'SuperAdministrador',
 	ADMINISTRADOR = 'Administrador',
 	USUARIO = 'Usuario',
-	// GESTOR = 'gestor',
-	// FUNCIONARIO = 'funcionario',
 	PUBLICO = 'Publico'
 }
 

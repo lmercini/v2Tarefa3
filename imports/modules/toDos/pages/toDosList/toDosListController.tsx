@@ -9,9 +9,7 @@ import { toDosApi } from '../../api/toDosApi';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import { Meteor } from 'meteor/meteor';
 import  { ConcludedButton } from './toDosListContext';
-
-
-
+import { StatusConcluded } from '../../config/recursos';
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean }[];
@@ -30,19 +28,12 @@ interface IToDosListContollerContext {
 	page: number;
 	setPage: React.Dispatch<React.SetStateAction<number>>;
 	total:number;
-
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	navigateToHome: () => void;
 	navigateToEdit?: (id:string) => void; 
-	
-
-	
 
 }
-
-
-
 
 
 export const ToDosListControllerContext = React.createContext<IToDosListContollerContext>(
@@ -56,64 +47,41 @@ const initialConfig = {
 	viewComplexTable: false
 };
 
-
-
 const ToDosListController = () => {
 
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const { showNotification } = useContext(AppLayoutContext);
-
 	const [total,setTotal] = useState(0)
-	
 
 	const onChangeStatus = useCallback((row:any) => {
-
-		const newStatusConcluded =  row.statusConcluded === 'Concluída'? 'Não Concluída':'Concluída'
-
+		const newStatusConcluded =  row.statusConcluded === StatusConcluded.CONCLUDED ? 'Não Concluída' : 'Concluída'
 		const docStatus = {...row, statusConcluded : newStatusConcluded}
 
-
-
-	
 		toDosApi.update(docStatus, (error: any) =>{
 
-			error? showNotification({
-				type: 'error',
-				title: 'Erro ao salvar',
-				message: error.reason || 'Ocorreu um erro na validação.'
-			}): showNotification({
-				type: (row.statusConcluded === 'Concluída') ? 'default' : 'success',
-				title: 'Tarefa Atualizada!',
-				message: `Situação da Tarefa: ${newStatusConcluded}`
-			});
+		error? showNotification({
+			type: 'error',
+			title: 'Erro ao salvar',
+			message: error.reason || 'Ocorreu um erro na validação.'
+		}): showNotification({
+			type: (row.statusConcluded === StatusConcluded.CONCLUDED) ? 'default' : 'success',
+			title: 'Tarefa Atualizada!',
+			message: `Situação da Tarefa: ${newStatusConcluded}`
+		});
 
 
-		})
-
-		
-
-
-	}
-
-, [showNotification]); 
-
+		})}, [showNotification]); 
 
 	const { title, type, typeMulti} = toDosApi.getSchema();
-
-	
-
 	const toDosSchReduzido = { 	
-		columnButton: { label: 'Concluída', type: String },
+		columnButton: { label: StatusConcluded.CONCLUDED, type: String },
 		title, 
 		type, 
 		typeMulti, 
 		createdat: { type: Date, label: 'Criado em' },
-		
-		
-	
+
 	};
 		
-
 	useEffect(()=>{
 		Meteor.call('toDos.totalCount',(err: Meteor.Error | null, result: number) => {
 			if (err) {
@@ -124,32 +92,20 @@ const ToDosListController = () => {
 		})
 	},[])
 
-
-
-
-
 	const navigate = useNavigate();
- 
-	
-
 	const navigateToHome = () => {
 		navigate(`/toDos/home`)
 	}
-
 	const navigateToEdit = (id:string) => {
 		navigate(`/toDos/edit/${id}`)
 	}
-
-
 	const { sortProperties, filter } = config;
-
 	const sort = sortProperties.reduce((arr, prop) => {
 		arr[prop.field] = prop.sortAscending ? 1 : -1;
 		return arr;
 	}, {} as Record<string, number>);
 
 	const [page,setPage] = useState(1)
-
 	const { loading, toDoss } = useTracker(() => {
 		const subHandle = toDosApi.subscribe('toDosList', filter, {
 			sort,
@@ -206,7 +162,7 @@ const ToDosListController = () => {
 			...row, 
 			columnButton: (
 				<ConcludedButton
-					isConcluded={(row.statusConcluded === 'Concluída')? true:false}
+					isConcluded={(row.statusConcluded === StatusConcluded.CONCLUDED) ? true : false}
 					onClick={(event) => {
 						event.stopPropagation(); 
 						if (row.createdby === Meteor.userId()){

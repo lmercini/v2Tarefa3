@@ -10,3 +10,10 @@ export enum StatusConcluded {
 	CONCLUDED = "Concluída",
 	NCONCLUDED = "Não Concluída"
 }
+
+export enum PageStatus {
+	VIEW = 'view',
+	CREATE = 'create',
+	EDIT = 'edit'
+}
+

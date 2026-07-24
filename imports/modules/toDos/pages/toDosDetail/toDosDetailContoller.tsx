@@ -8,6 +8,7 @@ import { toDosApi } from '../../api/toDosApi';
 import { IToDos } from '../../api/toDosSch';
 import { IMeteorError } from '/imports/typings/IMeteorError';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+import { PageStatus } from '../../config/recursos';
 
 const ToDosDetailController: React.FC = () => {
 
@@ -27,7 +28,7 @@ const ToDosDetailController: React.FC = () => {
 	}
 
 	const onSubmit = (doc: Partial<IToDos>) => {
-		toDosApi[state == "create" ? 'insert' : 'update'](doc, (error: IMeteorError) => {
+		toDosApi[state == PageStatus.CREATE ? 'insert' : 'update'](doc, (error: IMeteorError) => {
 			if(error) return showNotification({
 				type: 'error',
 				title: 'Não foi possível registrar o item',
@@ -36,10 +37,10 @@ const ToDosDetailController: React.FC = () => {
 		showNotification({
 			type: 'success',
 			title: `Solicitação Registrada!`,
-			message: `${state == "create" ? 'Tarefa Criada' : 'Tarefa Atualizada'} com sucesso.`
+			message: `${state == PageStatus.CREATE ? 'Tarefa Criada' : 'Tarefa Atualizada'} com sucesso.`
 
 		})
-		navigate('/toDos');
+		navigate('/toDos/view');
 
 		})
 	}
@@ -61,19 +62,11 @@ const ToDosDetailController: React.FC = () => {
 		closePage: closePage,
 		navigateToEdit: navigateToEdit
 	} 
-	
-
-	
 
 	return (
-
 		<Context.Provider value={contextValue}>
 			<ToDosDetailView />
-
 		</Context.Provider>
-			
-	
-
 	)}
 
 	export default ToDosDetailController;
